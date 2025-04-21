@@ -1,0 +1,78 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+
+<div class="container-fluid mt-3">
+  <div class="stats-row">
+    <div class="stat-card green">
+      <div class="stat-info">
+        <h3 class="card-number">15000</h3>
+        <h4>عدد الطلاب المقيمين فى السكن</h4>
+        <small>علمان بان العدد الكلى للطلاب هو 20000</small>
+      </div>
+      <i class="fas fa-user-graduate stat-icon"></i>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-info">
+        <h3 class="card-number">85</h3>
+        <h4>عدد العاملين النشطين</h4>
+        <small>علما بان عدد العاملين فى المدينة 100</small>
+      </div>
+      <i class="fas fa-users stat-icon"></i>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-info">
+        <h3 class="card-number">25000</h3>
+        <h4>عدد الطلاب المقبولون فى السكن الجامعى </h4>
+        <small>علما بان عدد الطلاب المتقدمين 30000</small>
+      </div>
+      <i class="fa-solid fa-user-group stat-icon"></i>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card coral">
+      <div class="stat-info">
+        <h3 class="card-number">5</h3>
+        <h4>عدد المبانى المتاحة</h4>
+        <small>علما بان العدد الكلى للمبانى هو 6</small>
+      </div>
+      <i class="fas fa-solid fa-building stat-icon"></i>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-info">
+        <h3 class="card-number">6,000</h3>
+        <h4>عدد الغرف المشغولة</h4>
+        <small>علمابأن عدد العدد الكلى للغرف هو 6500</small>
+      </div>
+      <i class="fa-solid fa-building-user stat-icon"></i>
+    </div>
+    <div class="stat-card gray">
+      <div class="stat-info">
+        <h3 class="card-number">5</h3>
+        <h4>عدد الغرف تتطلب صيانة</h4>
+      </div>
+      <i class="fa-solid fa-building-circle-xmark stat-icon"></i>
+    </div>
+  </div>
+  <div class="stats-row">
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions" style="height: 300px">
+    </highcharts-chart>
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions" style="height: 300px">
+    </highcharts-chart>
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions" style="height: 300px">
+    </highcharts-chart>
+  </div>
+</div>
+
+</html>
+
+

@@ -1,0 +1,97 @@
+/*!* You can add global styles to this file, and also import other style files *!*/
+/*!* You can add global styles to this file, and also import other style files *!*/
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+/*@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';*//* there is problem at this line when he works it make the sidebar items moving to right*/
+
+.card {
+  border: none;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+  margin-bottom: 10px;
+  background-color: #e3f2fd   ;
+}
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.w-60 {
+  width: 60px;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+.social-links li a {
+  -webkit-border-radius: 50%;
+  background-color: rgba(89,206,181,.85);
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  width: 30px;
+  font-size: 12px;
+}
+a {
+  color: #707070;
+}
+
+.container-fluid, .stats-row {
+  direction: rtl;
+}
+
+.custom-navbar {
+  background: linear-gradient(90deg, #0d47a1, #1976d2); /* Gradient blue */
+  padding: 0.7rem 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 0 0 10px 10px;
+}
+
+.custom-navbar .navbar-brand {
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.custom-navbar .btn-outline-light {
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-weight: 500;
+}
+
+.custom-navbar input.form-control {
+  border-radius: 20px;
+  padding-left: 15px;
+  font-size: 0.9rem;
+  min-width: 220px;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1000;
+}
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-valid {
+  border-color: #28a745;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+}
+
+.invalid-feedback div {
+  font-size: 0.875rem;
+}
+
+
+

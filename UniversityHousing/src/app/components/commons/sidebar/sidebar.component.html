@@ -1,0 +1,25 @@
+<div class="sidebar">
+  <div class="logo-section">
+    <img src="assets/images/output-onlinepngtools.Jpg" alt="LOGO" class="logo"/>
+    <div class="info">
+      <h2>المدينة الجامعية</h2>
+    </div>
+  </div>
+  <div class="menu-section">
+    <h3>القائمة الرئيسية</h3>
+    <ul>
+      <li [ngClass]="{'active': activeItem === 'home'}" (click)="setActive('home')" routerLinkActive="active" routerLink="/dashboard"><i class="fas fa-home"></i> الواجهة الرئيسية</li>
+      <li [ngClass]="{'active': activeItem === 'students'}" (click)="setActive('students')" routerLinkActive="active" routerLink="/studentsList"><i class="fas fa-user-graduate"></i> الطلاب</li>
+      <li [ngClass]="{'active': activeItem === 'employees'}" (click)="setActive('employees')" routerLinkActive="active" routerLink="/employees"><i class="fas fa-users"></i> العاملين</li>
+      <li [ngClass]="{'active': activeItem === 'rooms'}" (click)="setActive('rooms')" routerLinkActive="active" routerLink="/rooms"> <i class="fa-solid fa-building-user"></i> الغرف</li>
+      <li><i class="fas fa-book"></i> طلبات التقديم</li>
+      <li><i class="fa-solid fa-bullhorn"></i> الاعلانات</li>
+      <li><i class="fa-solid fa-dumbbell"></i> النشاط الرياضى</li>
+      <li><i class="fa-solid fa-user-doctor"></i> الرعاية الصحية </li>
+      <li><i class="fa-solid fa-message"></i> المحادثات</li>
+      <li><i class="fas fa-file"></i> التقارير</li>
+      <li><i class="fas fa-cog"></i> الاعدادات</li>
+      <li *ngIf="isAuthenticated" (click)="logout()" routerLink="/login" ><i class="fa-solid fa-right-from-bracket"></i>تسجيل الخروج</li>
+    </ul>
+  </div>
+</div>
