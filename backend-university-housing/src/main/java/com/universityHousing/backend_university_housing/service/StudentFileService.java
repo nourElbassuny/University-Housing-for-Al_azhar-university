@@ -4,6 +4,7 @@ import com.universityHousing.backend_university_housing.dao.studentFiles.Student
 import com.universityHousing.backend_university_housing.dao.studentRepository.StudentRepo;
 import com.universityHousing.backend_university_housing.entity.Student;
 import com.universityHousing.backend_university_housing.entity.StudentFile;
+import com.universityHousing.backend_university_housing.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,10 +37,14 @@ public class StudentFileService {
 
     public ResponseEntity<byte[]> getFile(int id){
         Student student=studentRepo.findStudentById(id).orElseThrow(()->new RuntimeException("Student not found"));
-        byte[]file=student.getStudentFile().getFileData();
+        StudentFile studentFile=student.getStudentFile();
+        if (studentFile==null){
+            throw new ApiRequestException("Student file not found");
+        }
+        byte[] fileData=studentFile.getFileData();
         HttpHeaders headers=new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(file,headers, HttpStatus.OK);
+        return new ResponseEntity<>(fileData,headers, HttpStatus.OK);
     }
 
 }

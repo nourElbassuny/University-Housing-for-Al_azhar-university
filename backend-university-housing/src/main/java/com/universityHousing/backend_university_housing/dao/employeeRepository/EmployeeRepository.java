@@ -7,7 +7,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
 @RepositoryRestResource
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>,EmployeeCustomRepository {
-    Optional<Employee> findEmployeeByPhone(String phone);
-    Optional<Employee>findEmployeeByNationalId(String nationalId);
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+    Optional<Employee>findEmployeesByEmail(String email);
+    Optional<Employee>findEmployeesByNationalId(String nationalId);
+    Optional<Employee>findEmployeesByPhone(String phone);
 }

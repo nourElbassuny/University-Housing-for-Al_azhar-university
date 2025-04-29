@@ -2,7 +2,6 @@ package com.universityHousing.backend_university_housing.controller;
 
 import com.universityHousing.backend_university_housing.dto.StudentDTO;
 import com.universityHousing.backend_university_housing.entity.Student;
-import com.universityHousing.backend_university_housing.entity.StudentFile;
 import com.universityHousing.backend_university_housing.service.StudentFileService;
 import com.universityHousing.backend_university_housing.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,10 @@ public class StudentController {
         this.studentFileService=fileService;
     }
     @GetMapping
-    public List<StudentDTO> getAllStudents(){
-        return studentService.test();
+    public List<StudentDTO> getStudentList(){
+        return studentService.getStudentList();
     }
+
     @PostMapping("/save")
     public ResponseEntity<?> save( @RequestPart("student") Student student,
                                          @RequestPart(value = "image", required = false) MultipartFile image) {
@@ -44,7 +44,7 @@ public class StudentController {
         return studentService.getImage(id);
     }
     @GetMapping("/findStudentByRoom/{id}")
-    public List<Student> findStudentByRoom(@PathVariable int id) {
+    public List<StudentDTO> findStudentByRoom(@PathVariable int id) {
         return studentService.getStudentByRoomId(id);
     }
     @PostMapping("/saveFile/{id}")

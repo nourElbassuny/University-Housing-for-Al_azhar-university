@@ -3,6 +3,8 @@ import {ShareDataService} from '../../services/shareDataService/share-data.servi
 import {StudentsService} from '../../services/studentService/students.service';
 import {Student} from '../../Classes/student/student';
 import {DatePipe, NgIf} from '@angular/common';
+import {QRCodeComponent} from 'angularx-qrcode';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 
 @Component({
@@ -10,6 +12,8 @@ import {DatePipe, NgIf} from '@angular/common';
   imports: [
     DatePipe,
     NgIf,
+    QRCodeComponent,
+    ZXingScannerModule,
   ],
   templateUrl: './student-details.component.html',
   standalone: true,
@@ -93,5 +97,14 @@ export class StudentDetailsComponent implements OnInit {
       window.open(fileURL);
     });
     */
+  }
+
+  scannedIds: Set<string> = new Set(); // Prevent repeated alerts
+
+  onCodeResult(result: string) {
+    if (!this.scannedIds.has(result)) {
+      this.scannedIds.add(result);
+      alert('Student ID: ' + result);
+    }
   }
 }

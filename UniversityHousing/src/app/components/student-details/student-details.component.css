@@ -12,3 +12,6 @@ img {
   max-width: 100%;
   border-radius: 1rem;
 }
+.qrcode-hover{
+  cursor: pointer;
+}

@@ -22,6 +22,8 @@
     "@okta/okta-angular": "^6.5.1",
     "@okta/okta-auth-js": "^7.12.0-rc1",
     "@okta/okta-signin-widget": "^7.30.1",
+    "@zxing/ngx-scanner": "^19.0.0",
+    "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.3",
     "highcharts": "^12.1.2",
     "highcharts-angular": "^4.0.1",

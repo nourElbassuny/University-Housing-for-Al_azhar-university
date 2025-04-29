@@ -22,28 +22,26 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
-    private StudentRepo studentRepo;
-    @PersistenceContext
-    EntityManager entityManager;
+    private final StudentRepo studentRepo;
+
     @Autowired
     public StudentService(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
     }
 
-    public List<StudentDTO> test(){
-        String sql="SELECT id,name, email, phone, gender, Governorate FROM students;";
-        Query query = entityManager.createNativeQuery(sql);
-        List<Object[]>students = query.getResultList();
+    public List<StudentDTO> getStudentList() {
+        List<Object[]> students = studentRepo.findStudentList();
         List<StudentDTO> studentDTOS = new ArrayList<>();
-
-        for(Object[] row:students){
-            StudentDTO dto=new StudentDTO(
-                    ((Number)row[0]).intValue(),
-                    (String)row[1],
-                    (String)row[2],
-                    (String)row[3],
-                    (String)row[4],
-                    (String)row[5]
+        for (Object[] row : students) {
+            StudentDTO dto = new StudentDTO(
+                    ((Number) row[0]).intValue(),
+                    (String) row[1],
+                    (String) row[2],
+                    (String) row[3],
+                    (String) row[4],
+                    (String) row[5],
+                    (String) row[6],
+                    (String) row[7]
             );
             studentDTOS.add(dto);
         }
@@ -80,15 +78,29 @@ public class StudentService {
     }
 
     public ResponseEntity<byte[]> getImage(int id) {
-        Student student = studentRepo.findById(id).orElseThrow(()-> new RuntimeException("Student not found"));
+        Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
         byte[] image = student.getImage();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG); // Or PNG, depending on what you expect
         return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 
-    public List<Student> getStudentByRoomId(int roomId) {
-        return studentRepo.findStudentByRoomId(roomId);
+    public List<StudentDTO> getStudentByRoomId(int roomId) {
+        List<Object[]> studentsObject = studentRepo.findStudentsByRoomId(roomId);
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        for (Object[] row : studentsObject) {
+            studentDTOS.add(new StudentDTO(
+                    ((Number) row[0]).intValue(),
+                    (String) row[1],
+                    (String) row[2],
+                    (String) row[3],
+                    (String) row[4],
+                    (String) row[5],
+                    (String) row[6],
+                    (String) row[7]
+                    )
+            );
+        }
+        return studentDTOS;
     }
 }

@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg custom-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand text-white fw-bold" href="#">العاملين فى المدينة الجامعية</a>
+    <a class="navbar-brand text-white fw-bold">العاملين فى المدينة الجامعية</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
             aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -150,10 +150,8 @@
               <div *ngIf="phone?.invalid && (phone?.dirty || !phone?.untouched)" class="text-danger mt-1">
                 <small *ngIf="phone?.errors?.['required'] || phone?.errors?.['notOnlyWhiteSpace']">رقم الهاتف مطلوب</small>
                 <small *ngIf="phone?.errors?.['minlength'] || phone?.errors?.['maxlength']">يجب أن يكون رقم الهاتف 11 رقمًا</small>
-
               </div>
             </div>
-
             <!-- National ID Field -->
             <div class="col-md-6">
               <label for="nationalId" class="form-label">الرقم القومى</label>
@@ -161,7 +159,6 @@
               <div *ngIf="nationalId?.invalid && (nationalId?.dirty || !nationalId?.untouched)" class="text-danger mt-1">
                 <small *ngIf="nationalId?.errors?.['required'] || phone?.errors?.['notOnlyWhiteSpace']">الرقم القومي مطلوب</small>
                 <small *ngIf="nationalId?.errors?.['minlength'] || nationalId?.errors?.['maxlength']">يجب أن يكون الرقم القومي 14 رقمًا</small>
-
               </div>
             </div>
 
@@ -183,7 +180,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             <i class="fas fa-times me-1"></i> إغلاق
           </button>
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          <button [disabled]="checkoutFromGroup.invalid" type="submit" class="btn btn-primary" data-bs-dismiss="modal">
             <i class="fas fa-save me-1"></i> حفظ البيانات
           </button>
         </div>
@@ -222,8 +219,6 @@
   </div>
 </div>
 
-
-
 <div *ngIf="employees?.length == 0" class="col-12 text-center mt-4">
   <div class="alert alert-warning shadow-sm rounded-3 py-4">
     <i class="fas fa-user-times fa-2x text-danger mb-3"></i>
@@ -231,5 +226,3 @@
     <p class="mb-0">لم يتم العثور على أية بيانات للعرض حالياً.</p>
   </div>
 </div>
-
-

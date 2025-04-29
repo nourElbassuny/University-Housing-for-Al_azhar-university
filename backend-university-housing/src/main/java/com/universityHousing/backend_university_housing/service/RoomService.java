@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final RoomRepo roomRepo;
 
-    private RoomRepo roomRepo;
+
     @Autowired
     public RoomService(RoomRepo roomRepo) {
         this.roomRepo = roomRepo;
     }
+
     public List<RoomDto> getAllRooms() {
        List<Room> rooms = roomRepo.findAll();
        return rooms.stream().map(room -> new RoomDto(

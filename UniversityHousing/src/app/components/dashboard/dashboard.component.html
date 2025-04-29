@@ -57,21 +57,18 @@
       <i class="fa-solid fa-building-circle-xmark stat-icon"></i>
     </div>
   </div>
-  <div class="stats-row">
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="chartOptions" style="height: 300px">
-    </highcharts-chart>
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="chartOptions" style="height: 300px">
-    </highcharts-chart>
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="chartOptions" style="height: 300px">
-    </highcharts-chart>
+
+    <div class="chart-panels">
+      <div class="panel" *ngFor="let options of chartOptionsList">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="options"
+          style="width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+      </div>
+    </div>
   </div>
-</div>
+
 
 </html>
 

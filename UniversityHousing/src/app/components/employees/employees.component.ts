@@ -62,9 +62,12 @@ export class EmployeesComponent implements OnInit {
         alert("successfully added!");
         this.getEmployeeList();
         this.checkoutFromGroup.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      },error => {
+          if (error.error && error.error.message) {
+            alert(error.error.message);
+          }else {
+            alert("An unexpected error occurred!");
+          }
       });
   }
 
@@ -72,7 +75,6 @@ export class EmployeesComponent implements OnInit {
     let currentEmployee:Employee=this.checkoutFromGroup.value;
     currentEmployee.id=this.tempEmployee.id;
 
-    console.log(currentEmployee);
     this.employeeService.updateEmployee(currentEmployee).subscribe(res => {
         this.getEmployeeList();
       },
