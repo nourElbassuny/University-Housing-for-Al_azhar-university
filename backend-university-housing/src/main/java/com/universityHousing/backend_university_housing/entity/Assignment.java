@@ -2,8 +2,10 @@ package com.universityHousing.backend_university_housing.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.xml.crypto.Data;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -26,7 +28,9 @@ public class Assignment {
     @Column(name = "assigned_date")
     private Timestamp assignedDate;
 
-    public Assignment() {}
+    public Assignment() {
+    }
+
     public Assignment(Student student, Room room, Timestamp assignedDate) {
         this.student = student;
         this.rooms = room;

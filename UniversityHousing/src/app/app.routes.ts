@@ -1,21 +1,25 @@
 import {provideRouter, Router, Routes} from '@angular/router';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+
 import {
   OktaAuthModule,
   OktaCallbackComponent,
   OKTA_CONFIG, OktaAuthGuard
 } from '@okta/okta-angular';
-import {LoginComponent} from './components/login/login.component';
+
 import {importProvidersFrom, Injector} from '@angular/core';
 
 import {OktaAuth} from '@okta/okta-auth-js';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
-import {EmployeesComponent} from './components/employees/employees.component';
-import {RoomsListComponent} from './components/rooms-list/rooms-list.component';
-import {RoomDetailsComponent} from './components/room-details/room-details.component';
-import {StudentsListComponent} from './components/students-list/students-list.component';
-import {StudentDetailsComponent} from './components/student-details/student-details.component';
+
+import {InsertDataComponent} from './Student/insert-data/insert-data.component';
+import {StudentDetailsComponent} from './Admin/admin-pages/components/student-details/student-details.component';
+import {StudentsListComponent} from './Admin/admin-pages/components/students-list/students-list.component';
+import {RoomDetailsComponent} from './Admin/admin-pages/components/room-details/room-details.component';
+import {RoomsListComponent} from './Admin/admin-pages/components/rooms-list/rooms-list.component';
+import {LoginComponent} from './Admin/admin-pages/components/login/login.component';
+import {EmployeesComponent} from './Admin/admin-pages/components/employees/employees.component';
+import {DashboardComponent} from './Admin/admin-pages/components/dashboard/dashboard.component';
 
 function sendToLoginPage(oktaAuth: OktaAuth,injector:Injector) {
   const  router=injector.get(Router);
@@ -23,11 +27,11 @@ function sendToLoginPage(oktaAuth: OktaAuth,injector:Injector) {
 }
 
 export const routes: Routes = [
-  {path:'studentDetails',component:StudentDetailsComponent,canActivate:[OktaAuthGuard],
+  {path:'studentDetails/:id',component:StudentDetailsComponent,canActivate:[OktaAuthGuard],
     data:{onAuthRequired:sendToLoginPage}},
   {path:'studentsList',component:StudentsListComponent,canActivate:[OktaAuthGuard],
     data:{onAuthRequired:sendToLoginPage}},
-  {path:'roomDetails',component:RoomDetailsComponent,canActivate:[OktaAuthGuard],
+  {path:'roomDetails/:id',component:RoomDetailsComponent,canActivate:[OktaAuthGuard],
     data:{onAuthRequired:sendToLoginPage}},
   {path:'rooms',component:RoomsListComponent,canActivate:[OktaAuthGuard],
     data:{onAuthRequired:sendToLoginPage}},
@@ -37,6 +41,7 @@ export const routes: Routes = [
     data:{onAuthRequired:sendToLoginPage}},
   {path:'employees',component:EmployeesComponent,canActivate:[OktaAuthGuard],
     data:{onAuthRequired:sendToLoginPage}},
+  {path:'insertData',component:InsertDataComponent},
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   {path: '**', redirectTo: '/dashboard', pathMatch: 'full'},
 ];

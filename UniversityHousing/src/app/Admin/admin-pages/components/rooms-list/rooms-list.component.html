@@ -1,0 +1,49 @@
+<div class="container mt-4" dir="rtl">
+  <div class="row">
+    <div class="col-md-2" *ngFor="let item of rooms">
+      <div class="card mb-4 shadow-sm hover-card" routerLink="/roomDetails/{{item.id}}" (click)="passingRoom(item)">
+        <div class="card-body text-end">
+          <h5 class="card-title text-primary d-flex justify-content-between">الغرفة {{ item.roomNumber }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">مبنى {{ item.buildingName }} </h6>
+
+          <ul class="list-group list-group-flush my-3">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>السعة</span>
+              <span>{{ item.capacity }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>المستخدم</span>
+              <span>{{ item.currentCapacity }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-success" *ngIf="item.capacity > item.currentCapacity">
+              <span>المتاح</span>
+              <span>{{ item.capacity - item.currentCapacity }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-danger" *ngIf="item.capacity <= item.currentCapacity">
+              <span>الغرفة ممتلئة</span>
+              <span>0</span>
+            </li>
+          </ul>
+
+
+          <div class="text-start">
+            <span class="badge bg-success" *ngIf="item.capacity > item.currentCapacity">متاح</span>
+            <span class="badge bg-danger" *ngIf="item.capacity <= item.currentCapacity">ممتلئ</span>
+          </div>
+
+          <div class="progress mt-2">
+            <div class="progress-bar"
+                 role="progressbar"
+                 [style.width.%]="(item.currentCapacity / item.capacity) * 100"
+                 [ngClass]="{
+                   'bg-success': item.currentCapacity < item.capacity,
+                   'bg-danger': item.currentCapacity >= item.capacity
+                 }">
+              {{ (item.currentCapacity / item.capacity * 100) | number: '1.0-0' }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
