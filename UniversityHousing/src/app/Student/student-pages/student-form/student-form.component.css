@@ -1,0 +1,25 @@
+.form-container{
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+h2{
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+}
+.close-container{
+  max-width: 600px;
+  background: white;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);;
+  border-radius: 15px;
+  padding: 100px;
+}
+.card-icon{
+  font-size: 4rem;
+  color: #dc3545;
+  margin-bottom: 15px;
+}

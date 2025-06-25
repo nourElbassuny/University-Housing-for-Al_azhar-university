@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary fs-4 text-white">
+          الاعدادات
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label text-start d-block">كلمة المرور الحالية</label>
+              <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="ادخل كلمة المرور الحالية...">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-start d-block">كلمة المرور الجديد</label>
+              <input  type="password" class="form-control" id="newPassword" name="currentPassword" placeholder="ادخال كلمة المرور الجديد...">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-start d-block ">تأكيد كلمة المرور الجديد</label>
+              <input  type="password" class="form-control" id="confirmPassword" name="currentPassword" placeholder="تأكيد كلمة المرور الجديد...">
+            </div>
+            <div *ngIf="true" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success">
+              {{ successMessage }}
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

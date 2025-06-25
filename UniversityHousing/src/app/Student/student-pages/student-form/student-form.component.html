@@ -1,0 +1,149 @@
+<div class="container mt-3">
+
+  @if (true) {
+    <div class="form-container">
+      <h2>عملية التسجيل</h2>
+      <form>
+        <p class="fs-3 text-start fw-bold text-primary">البيانات الاساسية</p>
+        <div class="row mb-3 text-start">
+          <div class="col-12 col-md-6 ">
+            <label class="form-label">اسم الطالب باللغة العربية</label>
+            <input type="text" class="form-control bg-body-secondary" id="arabicStudentName"
+                   placeholder="اسم الطالب باللغة العربية ">
+          </div>
+          <div class="col-12 col-md-6 ">
+            <label class="form-label ">اسم الطالب باللغة الانجليزية</label>
+            <input type="text" class="form-control bg-body-secondary" id="englishStudentName"
+                   placeholder="اسم الطالب باللغة الانجليزية">
+          </div>
+        </div>
+        <div class="row mb-3 text-start">
+          <div class="col-12 col-md-4">
+            <label class="form-label">المحافظة</label>
+            <select id="residenceStatus" class="form-select bg-body-secondary">
+              <option selected disabled>--اختر المحافظة--</option>
+              <option>القاهرة</option>
+              <option>الإسكندرية</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">المركز</label>
+            <select id="residenceCity" class="form-select bg-body-secondary">
+              <option selected disabled>--اختر المركز--</option>
+              <option>القاهرة</option>
+              <option>الإسكندرية</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">العنوان</label>
+            <input type="text" class="form-control bg-body-secondary" id="studentTitle" placeholder="عنوان الطالب">
+          </div>
+        </div>
+        <div class="row mb-5 text-start">
+          <div class="col-12 col-md-4 text-start">
+            <label class="form-label">الرقم القومى</label>
+            <input type="text" class="form-control bg-body-secondary" placeholder="الرقم القومى">
+          </div>
+          <div class="col-12 col-md-4 text-start">
+            <label class="form-label">الجنس</label>
+            <select class="form-select bg-body-secondary">
+              <option selected disabled>--اختر الجنس--</option>
+              <option>ذكر</option>
+              <option>أنثى</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4 text-start">
+            <label class="form-label">تاريخ الميلاد</label>
+            <input type="date" class="form-control bg-body-secondary">
+          </div>
+        </div>
+        <div class="border-bottom border-black my-3"></div>
+        <p class="fs-3 text-start fw-bold text-primary">بيانات الاتصال</p>
+
+        <div class="row mb-5 text-start">
+          <div class="col-12 col-md-4 text-start">
+            <label class="form-label">البريد الالكتروني</label>
+            <input type="email" class="form-control bg-body-secondary" placeholder="البريد الالكتروني">
+          </div>
+          <div class="col-12 col-md-4 text-start">
+            <label class="form-label">المحمول</label>
+            <input type="text" class="form-control bg-body-secondary" placeholder="تليفون الطالب">
+          </div>
+        </div>
+        <div class="border-bottom border-black my-3"></div>
+        <p class="fs-3 text-start fw-bold text-primary">البيانات التعليمية</p>
+        <div class="row mb-3 text-start">
+          <div class="col-12 col-md-4 ">
+            <label class="form-label">الجامعة</label>
+            <input type="text" class="form-control bg-body-secondary" id="university" placeholder="الجامعة">
+          </div>
+          <div class="col-12 col-md-4 ">
+            <label class="form-label ">الكلية</label>
+            <select class="form-select bg-body-secondary">
+              <option selected disabled>--اختر الكلية--</option>
+              <option>الهندسة</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4 ">
+            <label class="form-label ">القسم</label>
+            <select class="form-select bg-body-secondary">
+              <option selected disabled>--اختر القسم--</option>
+              <option>النظم و الحاسبات</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3 text-start">
+          <div class="col-12 col-md-4 ">
+            <label class="form-label ">الفرقة</label>
+            <select class="form-select bg-body-secondary">
+              <option selected disabled>--اختر الفرقة--</option>
+              <option>النظم و الحاسبات</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4 ">
+            <label class="form-label ">التقدير</label>
+            <select class="form-select bg-body-secondary">
+              <option selected disabled>--اختر التقدير--</option>
+              <option>جيد</option>
+            </select>
+          </div>
+        </div>
+        <div class="border-bottom border-black my-3"></div>
+        <p class="fs-3 text-start fw-bold text-primary">المرفقات</p>
+        <div class="row mb-3 text-start">
+          <div class="col-12 col-md-6">
+            <label class="form-label">صورة الطالب</label>
+            <input type="file" class="form-control bg-body-secondary" id="studentImage">
+            <small class="form-text text-muted">يرجى رفع صورة شخصية للطالب (JPG, PNG, GIF).</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="studentPdf" class="form-label">ملف PDF</label>
+            <input type="file" class="form-control bg-body-secondary" id="studentPdf" accept=".pdf">
+            <small class="form-text text-muted">يرجى رفع ملف PDF (يحتوى على صورة بطاقة الطالب و ولى الامر).</small>
+          </div>
+        </div>
+        <div class="alert alert-warning mt-5" role="alert">يرجى تحري الدقة فى هذه المعلومات حيث أنه لا يمكن تعديل هذه
+          البيانات بعد غلق فترة التسسجيل
+        </div>
+
+        <div class="text-end mt-5">
+          <button type="submit" class="btn btn-primary">إرسال طلب التسجيل</button>
+        </div>
+      </form>
+    </div>
+  } @else {
+    <div class="row justify-content-center">
+      <div class="close-container">
+        <div >
+          <i class="fas fa-exclamation-circle card-icon"></i>
+          <p class="fs-1 fw-bold mb-3"> عفواً!</p>
+          <p class="text-muted fs-4">تم غلق باب التسجيل في المدينة الجامعية لهذا العام. نتمنى لكم عاماً دراسياً موفقاً.</p>
+        </div>
+        <div class="btn btn-primary rounded-4 mt-5">العودة الى الصفحة الرئيسية</div>
+      </div>
+    </div>
+
+  }
+
+
+</div>

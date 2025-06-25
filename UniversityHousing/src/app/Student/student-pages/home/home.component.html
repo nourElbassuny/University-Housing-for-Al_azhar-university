@@ -1,0 +1,49 @@
+<div class="container">
+  <img src="assets/images/ic1.jpg" style="width: 100%; height: 500px" alt="">
+  <div class="banner-container ">
+    <div class="banner-content">
+      <span class="banner-item">تم فتح باب التقديم للمدينة الجامعية</span>
+      <span class="banner-item">تم فتح باب التقديم للمدينة الجامعية</span>
+    </div>
+  </div>
+  <div class="row mt-5 justified-text">
+    <div class="col-md-6 col-12">
+      <p class="fs-4">في إطار رؤية مصر الرقمية وفي ظل التأكيد الدائم للسيد رئيس الجمهورية على حتمية الاهتمام ببناء الإنسان المصري، وتماشياً مع الاهتمام الكبير الذي توليه وزارة الاتصالات وتكنولوجيا المعلومات لتنمية قطاع الاتصالات وتكنولوجيا المعلومات وبناء الكوادر المتخصصة العالية الحرفية، أطلقت وزارة الاتصالات وتكنولوجيا المعلومات مبادرة في هذا الشأن وهي:</p>
+      <p class="text-success fw-bold fs-1">جامعة الأزهر</p>
+    </div>
+    <div class="col-md-6 col-12">
+      <img src="assets/images/logo.ico" alt="">
+    </div>
+  </div>
+  <div class="tab-content mt-5">
+    <button  [ngClass]="{'active': activeItem === 'goals'}" (click)="setActive('goals')"   class="tab-button active">الأهداف</button>
+    <button [ngClass]="{'active': activeItem === 'message'}" (click)="setActive('message')"  class="tab-button">الرسالة</button>
+    <button [ngClass]="{'active': activeItem === 'vision'}" (click)="setActive('vision')"  class="tab-button">الرؤية</button>
+  </div>
+  <div class="mt-5">
+    <p class="fw-bold fs-1 text-start">{{header}}</p>
+    <p class="justified-text fs-4 text-start px-3">{{text}}</p>
+  </div>
+
+  <div class="card-container mt-5">
+    <div class="image-card card-2">
+      <div class="card-overlay">
+        <p>معايير القبول بالمنحة</p>
+      </div>
+    </div>
+
+    <div class="image-card card-3">
+      <div class="card-overlay">
+        <p>شروط التقديم</p>
+      </div>
+    </div>
+
+    <div class="image-card"  [ngStyle]="{'background-image': 'url(' + imagePath + ')'}" routerLink="/student/studentForm">
+      <div class="card-overlay">
+        <p>سجل الآن</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
