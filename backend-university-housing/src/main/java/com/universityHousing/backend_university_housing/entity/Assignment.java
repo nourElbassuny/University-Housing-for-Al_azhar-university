@@ -2,13 +2,13 @@ package com.universityHousing.backend_university_housing.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "assignments")
 public class Assignment {
@@ -37,35 +37,4 @@ public class Assignment {
         this.assignedDate = assignedDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Room getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Room rooms) {
-        this.rooms = rooms;
-    }
-
-    public Timestamp getAssignedDate() {
-        return assignedDate;
-    }
-
-    public void setAssignedDate(Timestamp assignedDate) {
-        this.assignedDate = assignedDate;
-    }
 }

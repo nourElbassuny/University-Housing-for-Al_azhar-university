@@ -4,6 +4,7 @@ import com.universityHousing.backend_university_housing.dto.StudentDTO;
 import com.universityHousing.backend_university_housing.entity.Student;
 import com.universityHousing.backend_university_housing.service.StudentFileService;
 import com.universityHousing.backend_university_housing.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +15,23 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/students")
+@RequestMapping("api")
+@RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
     private final StudentFileService studentFileService;
-    @Autowired
-    public StudentController(StudentService studentService,StudentFileService fileService) {
-        this.studentService = studentService;
-        this.studentFileService=fileService;
-    }
-    @GetMapping
-    public List<StudentDTO> getStudentList(){
+
+    @GetMapping("/admin/all-students")
+    public List<StudentDTO> getStudentList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
         return studentService.getStudentList();
     }
 
-    @PostMapping("/save")
+
+
+    @PostMapping("/student/save")
     public ResponseEntity<?> save( @RequestPart("student") Student student,
                                          @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
@@ -39,15 +42,16 @@ public class StudentController {
                     .body("Failed to save student or image");
         }
     }
-    @GetMapping("/{id}/image")
+    @GetMapping("/student/student-image/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable int id) {
         return studentService.getImage(id);
     }
-    @GetMapping("/findStudentByRoom/{id}")
+
+    @GetMapping("/admin/findStudentByRoom/{id}")
     public List<StudentDTO> findStudentByRoom(@PathVariable int id) {
         return studentService.getStudentByRoomId(id);
     }
-    @PostMapping("/saveFile/{id}")
+    @PostMapping("/student/saveFile/{id}")
     public ResponseEntity<?> saveStudentFile(@PathVariable("id")int studentId,@RequestPart(value = "file", required = false) MultipartFile file)  {
         try {
             this.studentFileService.saveFile(studentId,file);

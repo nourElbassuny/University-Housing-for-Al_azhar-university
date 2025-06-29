@@ -3,9 +3,6 @@ package com.universityHousing.backend_university_housing.service;
 import com.universityHousing.backend_university_housing.dao.studentRepository.StudentRepo;
 import com.universityHousing.backend_university_housing.dto.StudentDTO;
 import com.universityHousing.backend_university_housing.entity.Student;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +25,7 @@ public class StudentService {
     public StudentService(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
     }
+
 
     public List<StudentDTO> getStudentList() {
         List<Object[]> students = studentRepo.findStudentList();

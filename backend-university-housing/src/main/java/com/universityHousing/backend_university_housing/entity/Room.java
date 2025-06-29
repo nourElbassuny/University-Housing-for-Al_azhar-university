@@ -2,10 +2,14 @@ package com.universityHousing.backend_university_housing.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Set;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "rooms")
 public class Room {
@@ -41,52 +45,5 @@ public class Room {
         this.room = room;
     }
 
-    public List<Assignment> getRoom() {
-        return room;
-    }
 
-    public void setRoom(List<Assignment> room) {
-        this.room = room;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getCurrentCapacity() {
-        return currentCapacity;
-    }
-
-    public void setCurrentCapacity(int currentCapacity) {
-        this.currentCapacity = currentCapacity;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
 }
