@@ -18,7 +18,7 @@
       <div class="card shadow rounded-4 border-0 hover-card" routerLink="/studentDetails/{{student.id}}">
         <!--        <img *ngIf="student.image" [src]="'data:image/jpeg;base64,' + student.image" class="card-img-top rounded-top-4" alt="صورة الطالب">-->
         <div class="card-body text-center">
-          <h5 class="card-title fw-bold">{{ student.name }}</h5>
+          <h5 class="card-title fw-bold">{{ student.arabicName }}</h5>
 
           <p class="card-text mb-1">
             <i class="fas fa-layer-group me-2 text-primary"></i>
@@ -27,7 +27,7 @@
 
           <p class="card-text mb-1">
             <i class="fas fa-envelope me-2 text-danger"></i>
-            {{ student.email }}
+            {{ student.englishName }}
           </p>
 
           <p class="card-text mb-1">

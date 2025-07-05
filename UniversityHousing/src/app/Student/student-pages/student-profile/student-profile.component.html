@@ -1,35 +1,46 @@
 <div class="container my-5">
-  <div class="row justify-content-center" >
+  <div class="row justify-content-center">
     <div class="col-12 card" style="background: #dee2e6">
       <div class="text-center mb-4">
         <div class="card-img">
-          <img src="assets/images/logo.ico" class="profile-image">
+          <img [src]="student.image" class="profile-image">
         </div>
-        <h5>رقم الطالب: 2102397</h5>
+        <h5>رقم الطالب: {{ student.id }}</h5>
+        <!-- Added Status Field -->
+        <div class="mt-3">
+          <span class="badge fs-5 px-3 py-2"
+                [ngClass]="{
+                  'bg-warning text-dark': student.status === 'UNDER_REVIEW',
+                  'bg-success text-white': student.status === 'مقبول',
+                  'bg-danger text-white': student.status === 'مرفوض'
+                }">
+            {{ student.status }}
+          </span>
+        </div>
       </div>
       <h3 class="mb-3 text-primary text-start">البيانات الأساسية</h3>
       <div class="row g-5 mb-3">
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الاسم باللغة العربية</div>
-              <div class="text-start fw-bold">نورالدين سعيد بسوني ابراهيم</div>
+              <div class="label text-start text-secondary">الاسم باللغة العربية</div>
+              <div class="text-start fw-bold">{{ student.arabicName }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الاسم باللغة الانجليزية</div>
-              <div class="text-end fw-bold ">Nouredien said basuny ibrahim</div>
+              <div class="label text-start text-secondary">الاسم باللغة الانجليزية</div>
+              <div class="text-end fw-bold">{{ student.englishName }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">النوع</div>
-              <div class="text-start fw-bold">ذكر</div>
+              <div class="label text-start text-secondary">النوع</div>
+              <div class="text-start fw-bold">{{ student.gender }}</div>
             </div>
           </div>
         </div>
@@ -38,24 +49,24 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">تاريخ الميلاد</div>
-              <div class="text-start fw-bold">03/03/2001</div>
+              <div class="label text-start text-secondary">تاريخ الميلاد</div>
+              <div class="text-start fw-bold">{{ student.birthday | date:'yyyy-MM-dd' }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الرقم القومي</div>
-              <div class="text-start fw-bold ">30103032101036</div>
+              <div class="label text-start text-secondary">الرقم القومي</div>
+              <div class="text-start fw-bold">{{ student.nationalId }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="bg-white rounded p-1 h-100" style="height: 60px">
+          <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">المحافظة</div>
-              <div class="text-start fw-bold">الجيزة</div>
+              <div class="label text-start text-secondary">المحافظة</div>
+              <div class="text-start fw-bold">{{ student.governorate }}</div>
             </div>
           </div>
         </div>
@@ -64,35 +75,35 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">العنوان</div>
-              <div class="text-start fw-bold">2ش عمر مكرم المتفرع من شارع ترسا العمومى</div>
+              <div class="label text-start text-secondary">العنوان</div>
+              <div class="text-start fw-bold">{{ student.address }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">المدينة</div>
-              <div class="text-start fw-bold ">ابوالنمرس</div>
+              <div class="label text-start text-secondary">المدينة</div>
+              <div class="text-start fw-bold">{{ student.state }}</div>
             </div>
           </div>
         </div>
       </div>
-      <h3 class="mb-3 text-primary text-start">بيانات الإتصال </h3>
+      <h3 class="mb-3 text-primary text-start">بيانات الإتصال</h3>
       <div class="row g-5 mb-3">
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">البريد الالكتروني</div>
-              <div class="text-start fw-bold">NourIbrahim90725&#64;azhar.edu.eg</div>
+              <div class="label text-start text-secondary">البريد الالكتروني</div>
+              <div class="text-start fw-bold">{{ student.email }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">المحمول</div>
-              <div class="text-start fw-bold ">01126219388</div>
+              <div class="label text-start text-secondary">المحمول</div>
+              <div class="text-start fw-bold">{{ student.phone }}</div>
             </div>
           </div>
         </div>
@@ -102,7 +113,7 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الجامعة</div>
+              <div class="label text-start text-secondary">الجامعة</div>
               <div class="text-start fw-bold">جامعة الازهر بنين</div>
             </div>
           </div>
@@ -110,16 +121,16 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الكلية</div>
-              <div class="text-start fw-bold ">كلية الهندسة-بنين (هندسي عام)</div>
+              <div class="label text-start text-secondary">الكلية</div>
+              <div class="text-start fw-bold">{{ student.colleague }}</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">التخصص</div>
-              <div class="text-start fw-bold">النظم و الحاسبات</div>
+              <div class="label text-start text-secondary">التخصص</div>
+              <div class="text-start fw-bold">{{ student.department }}</div>
             </div>
           </div>
         </div>
@@ -128,7 +139,7 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الفرقة</div>
+              <div class="label text-start text-secondary">الفرقة</div>
               <div class="text-start fw-bold">الرابعة</div>
             </div>
           </div>
@@ -136,8 +147,8 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">التقدير</div>
-              <div class="text-start fw-bold ">جيد جدا</div>
+              <div class="label text-start text-secondary">التقدير</div>
+              <div class="text-start fw-bold">جيد جدا</div>
             </div>
           </div>
         </div>
@@ -147,7 +158,7 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">المبنى</div>
+              <div class="label text-start text-secondary">المبنى</div>
               <div class="text-start fw-bold">الطيب</div>
             </div>
           </div>
@@ -155,15 +166,15 @@
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">الدور</div>
-              <div class="text-start fw-bold ">الأول</div>
+              <div class="label text-start text-secondary">الدور</div>
+              <div class="text-start fw-bold">الأول</div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="bg-white rounded p-1 h-100">
             <div class="m-1">
-              <div class="label text-start  text-secondary">رقم الغرفة</div>
+              <div class="label text-start text-secondary">رقم الغرفة</div>
               <div class="text-start fw-bold">2</div>
             </div>
           </div>

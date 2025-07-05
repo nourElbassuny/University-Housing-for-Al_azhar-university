@@ -1,5 +1,6 @@
 package com.universityHousing.backend_university_housing.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +13,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.universityHousing.backend_university_housing.entity.Permission.*;
+import java.util.List;
+
+import static com.universityHousing.backend_university_housing.ENUM.Permission.*;
 import static org.springframework.http.HttpMethod.*;
-import static com.universityHousing.backend_university_housing.entity.Role.*;
+import static com.universityHousing.backend_university_housing.ENUM.Role.*;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
 
@@ -55,12 +62,30 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> {
-                    logout.logoutUrl("/api/aut/logout")
+                    logout.logoutUrl("/api/auth/logout")
                             .addLogoutHandler(logoutHandler)
-                            .logoutSuccessHandler(((request, response, authentication) ->
-                                    SecurityContextHolder.clearContext()));
+                            .logoutSuccessHandler(((request, response, authentication) -> {
+                                SecurityContextHolder.clearContext();
+                                response.setStatus(HttpServletResponse.SC_OK);
+                                response.setContentType("application/json");
+                                response.getWriter().write("{\"message\": \"Logout successful\"}");
+                            }
+                            ));
                 });
 
         return http.build();
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }

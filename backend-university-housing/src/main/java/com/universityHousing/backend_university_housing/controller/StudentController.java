@@ -1,11 +1,15 @@
 package com.universityHousing.backend_university_housing.controller;
 
+import com.universityHousing.backend_university_housing.dto.PaginatedResponse;
 import com.universityHousing.backend_university_housing.dto.StudentDTO;
+import com.universityHousing.backend_university_housing.entity.Employee;
 import com.universityHousing.backend_university_housing.entity.Student;
 import com.universityHousing.backend_university_housing.service.StudentFileService;
 import com.universityHousing.backend_university_housing.service.StudentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api")
@@ -21,45 +26,57 @@ public class StudentController {
     private final StudentService studentService;
     private final StudentFileService studentFileService;
 
-    @GetMapping("/admin/all-students")
-    public List<StudentDTO> getStudentList(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
-    ){
-        return studentService.getStudentList();
+    @GetMapping("/student/getStudentData")
+    public ResponseEntity<StudentDTO>getCurrentStudentData(){
+        return studentService.getCurrentStudentData();
+    }
+    @GetMapping("/admin/findStudentByRoomId/{id}")
+    public ResponseEntity<List<StudentDTO>> findStudentByRoomId(@PathVariable Integer id){
+        return studentService.findStudentByRoomId(id);
+    }
+
+    @GetMapping("/student/image")
+    public ResponseEntity<Map<String,String>>getStudentImage(){
+        return studentService.getStudentImage();
     }
 
 
+
+
+
+    @GetMapping("/admin/all-students")
+    public PaginatedResponse<StudentDTO> getStudentList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int size,
+            HttpServletRequest request
+    ) {
+        Page<StudentDTO> students = studentService.getAllStudents(page, size);
+        String baseUrl = request.getRequestURL().toString();
+        String nextUrl = students.hasNext() ? String.format("%s?page=%d&size=%d", baseUrl, page + 1, size) : null;
+        String previousUrl = students.hasPrevious() ? String.format("%s?page=%d&size=%d", baseUrl, page - 1, size) : null;
+
+        var paginatedResponse = new PaginatedResponse<StudentDTO>(
+                students.getContent(),
+                students.getNumber(),
+                students.getTotalPages(),
+                students.getTotalElements(),
+                students.hasNext(),
+                students.hasNext(),
+                nextUrl,
+                previousUrl
+        );
+        return paginatedResponse;
+    }
 
     @PostMapping("/student/save")
-    public ResponseEntity<?> save( @RequestPart("student") Student student,
-                                         @RequestPart(value = "image", required = false) MultipartFile image) {
-        try {
-            Student savaStudent=studentService.saveStudent(student,image);
-            return ResponseEntity.ok(savaStudent);
-        }catch (IOException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to save student or image");
-        }
-    }
-    @GetMapping("/student/student-image/{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable int id) {
-        return studentService.getImage(id);
+    public ResponseEntity<Map<String,String>> saveStudent(@RequestPart(name = "student") Student student,
+                                           @RequestPart(name = "image") MultipartFile image,
+                                           @RequestPart(name = "file") MultipartFile file) throws IOException {
+       return studentService.saveStudent(student,image,file);
     }
 
-    @GetMapping("/admin/findStudentByRoom/{id}")
-    public List<StudentDTO> findStudentByRoom(@PathVariable int id) {
-        return studentService.getStudentByRoomId(id);
-    }
-    @PostMapping("/student/saveFile/{id}")
-    public ResponseEntity<?> saveStudentFile(@PathVariable("id")int studentId,@RequestPart(value = "file", required = false) MultipartFile file)  {
-        try {
-            this.studentFileService.saveFile(studentId,file);
-            return ResponseEntity.ok(HttpStatus.ACCEPTED);
-        }catch (IOException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to save student or image");
-        }
-
+    @GetMapping("/student/message")
+    public ResponseEntity<String> getStudentMessage() {
+        return new ResponseEntity<>("Wecommando", HttpStatus.OK);
     }
 }

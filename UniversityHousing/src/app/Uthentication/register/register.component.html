@@ -1,0 +1,39 @@
+<div class="container d-flex align-items-center justify-content-center min-vh-100 bg-light">
+  <div class="card shadow-lg p-4 rounded-4" style="width: 100%; max-width: 450px;">
+    <h3 class="text-center mb-4 fw-bold text-primary">Register</h3>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email address</label>
+        <input type="email" id="email" formControlName="email" class="form-control bg-body-secondary"
+               [ngClass]="{ 'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched }" />
+        <div class="invalid-feedback" *ngIf="registerForm.get('email')?.errors?.['required']">
+          Email is required.
+        </div>
+        <div class="invalid-feedback" *ngIf="registerForm.get('email')?.errors?.['email']">
+          Invalid email format.
+        </div>
+        <div class="text-danger small mt-1" *ngIf="showError">
+          Change your email. A user already exists with this email.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <input type="password" id="password" formControlName="password" class="form-control text-end bg-body-secondary"
+               [ngClass]="{ 'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched }" />
+        <div class="invalid-feedback" *ngIf="registerForm.get('password')?.errors?.['required']">
+          Password is required.
+        </div>
+        <div class="invalid-feedback" *ngIf="registerForm.get('password')?.errors?.['minlength']">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 fw-semibold mt-2">
+        Register
+      </button>
+
+    </form>
+  </div>
+</div>

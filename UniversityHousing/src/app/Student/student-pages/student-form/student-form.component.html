@@ -3,58 +3,120 @@
   @if (true) {
     <div class="form-container">
       <h2>عملية التسجيل</h2>
-      <form>
+      <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
         <p class="fs-3 text-start fw-bold text-primary">البيانات الاساسية</p>
+        <input type="hidden">
+
         <div class="row mb-3 text-start">
           <div class="col-12 col-md-6 ">
             <label class="form-label">اسم الطالب باللغة العربية</label>
-            <input type="text" class="form-control bg-body-secondary" id="arabicStudentName"
-                   placeholder="اسم الطالب باللغة العربية ">
+            <input type="text" class="form-control bg-body-secondary" id="arabicName" formControlName="arabicName"
+                   placeholder="اسم الطالب باللغة العربية "
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('arabicName')?.invalid && checkoutFormGroup.get('arabicName')?.touched}">
+            @if (checkoutFormGroup.get('arabicName')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا حقل مطلوب</div>
+            }
           </div>
           <div class="col-12 col-md-6 ">
             <label class="form-label ">اسم الطالب باللغة الانجليزية</label>
             <input type="text" class="form-control bg-body-secondary" id="englishStudentName"
-                   placeholder="اسم الطالب باللغة الانجليزية">
+                   formControlName="englishName"
+                   placeholder="اسم الطالب باللغة الانجليزية"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('englishName')?.invalid && checkoutFormGroup.get('englishName')?.touched}">
+            @if (checkoutFormGroup.get('englishName')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا حقل مطلوب</div>
+            }
           </div>
         </div>
         <div class="row mb-3 text-start">
           <div class="col-12 col-md-4">
             <label class="form-label">المحافظة</label>
-            <select id="residenceStatus" class="form-select bg-body-secondary">
+            <select id="residenceStatus" class="form-select bg-body-secondary" formControlName="governorate"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('governorate')?.invalid && checkoutFormGroup.get('governorate')?.touched}"
+                    (change)="getValue()"
+            >
               <option selected disabled>--اختر المحافظة--</option>
-              <option>القاهرة</option>
-              <option>الإسكندرية</option>
+              @for (item of governorateData; track item.id) {
+                <option>{{ item.name }}</option>
+              }
             </select>
+            @if (checkoutFormGroup.get('governorate')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا حقل مطلوب</div>
+            }
           </div>
           <div class="col-12 col-md-4">
             <label class="form-label">المركز</label>
-            <select id="residenceCity" class="form-select bg-body-secondary">
+            <select id="residenceCity" class="form-select bg-body-secondary" formControlName="state"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('state')?.invalid && checkoutFormGroup.get('state')?.touched}">
               <option selected disabled>--اختر المركز--</option>
-              <option>القاهرة</option>
-              <option>الإسكندرية</option>
+              @for (item of states; track item.id) {
+                <option>{{item.name}}</option>
+              }
             </select>
+            @if (checkoutFormGroup.get('state')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
           <div class="col-12 col-md-4">
             <label class="form-label">العنوان</label>
-            <input type="text" class="form-control bg-body-secondary" id="studentTitle" placeholder="عنوان الطالب">
+            <input type="text" class="form-control bg-body-secondary" id="studentTitle" placeholder="عنوان الطالب"
+                   formControlName="address"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('address')?.invalid && checkoutFormGroup.get('address')?.touched}"
+            >
+            @if (checkoutFormGroup.get('address')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
         </div>
         <div class="row mb-5 text-start">
           <div class="col-12 col-md-4 text-start">
             <label class="form-label">الرقم القومى</label>
-            <input type="text" class="form-control bg-body-secondary" placeholder="الرقم القومى">
+            <input type="text" class="form-control bg-body-secondary" placeholder="الرقم القومى"
+                   formControlName="nationalId"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('nationalId')?.invalid && checkoutFormGroup.get('nationalId')?.touched}">
+            @if (checkoutFormGroup.get('nationalId')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
+            @if (checkoutFormGroup.get('nationalId')?.errors?.['minlength'] ||
+            checkoutFormGroup.get('nationalId')?.errors?.['maxlength']) {
+              <div class="invalid-feedback">يجب أن يكون الرقم القومي 14 رقمًا</div>
+            }
+            @if (checkoutFormGroup.get('nationalId')?.errors?.['pattern']) {
+              <div class="invalid-feedback">يجب أن يحتوي على أرقام فقط</div>
+            }
           </div>
           <div class="col-12 col-md-4 text-start">
             <label class="form-label">الجنس</label>
-            <select class="form-select bg-body-secondary">
-              <option selected disabled>--اختر الجنس--</option>
-              <option>ذكر</option>
-              <option>أنثى</option>
+            <select class="form-select bg-body-secondary"
+                    formControlName="gender"
+                    [ngClass]="{
+            'is-invalid': checkoutFormGroup.get('gender')?.invalid && checkoutFormGroup.get('gender')?.touched
+          }">
+              <option value="" disabled selected>--اختر الجنس--</option>
+              <option value="ذكر">ذكر</option>
+              <option value="أنثى">أنثى</option>
             </select>
+            @if (checkoutFormGroup.get('gender')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
+
           <div class="col-12 col-md-4 text-start">
             <label class="form-label">تاريخ الميلاد</label>
-            <input type="date" class="form-control bg-body-secondary">
+            <input type="date"
+                   class="form-control bg-body-secondary"
+                   formControlName="birthday"
+                   [ngClass]="{
+           'is-invalid': checkoutFormGroup.get('birthday')?.invalid && checkoutFormGroup.get('birthday')?.touched
+         }"/>
+
+            @if (checkoutFormGroup.get('birthday')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
+
+            @if (checkoutFormGroup.get('birthday')?.errors?.['futureDate']) {
+              <div class="invalid-feedback">لا يمكن اختيار تاريخ في المستقبل</div>
+            }
           </div>
         </div>
         <div class="border-bottom border-black my-3"></div>
@@ -63,11 +125,24 @@
         <div class="row mb-5 text-start">
           <div class="col-12 col-md-4 text-start">
             <label class="form-label">البريد الالكتروني</label>
-            <input type="email" class="form-control bg-body-secondary" placeholder="البريد الالكتروني">
+            <input type="email" class="form-control bg-body-secondary" placeholder="البريد الالكتروني"
+                   [value]="userEmail" readonly>
           </div>
           <div class="col-12 col-md-4 text-start">
             <label class="form-label">المحمول</label>
-            <input type="text" class="form-control bg-body-secondary" placeholder="تليفون الطالب">
+            <input type="text" class="form-control bg-body-secondary" placeholder="تليفون الطالب"
+                   formControlName="phone"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('phone')?.invalid && checkoutFormGroup.get('phone')?.touched}">
+            @if (checkoutFormGroup.get('phone')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
+            @if (checkoutFormGroup.get('phone')?.errors?.['minlength'] ||
+            checkoutFormGroup.get('phone')?.errors?.['maxlength']) {
+              <div class="invalid-feedback">يجب أن يكون الرقم القومي 11 رقمًا</div>
+            }
+            @if (checkoutFormGroup.get('phone')?.errors?.['pattern']) {
+              <div class="invalid-feedback">يجب أن يحتوي على أرقام فقط</div>
+            }
           </div>
         </div>
         <div class="border-bottom border-black my-3"></div>
@@ -75,37 +150,71 @@
         <div class="row mb-3 text-start">
           <div class="col-12 col-md-4 ">
             <label class="form-label">الجامعة</label>
-            <input type="text" class="form-control bg-body-secondary" id="university" placeholder="الجامعة">
+            <input type="text" class="form-control bg-body-secondary" id="university" placeholder="الجامعة"
+                   [value]="'جامعة الأزهر'" readonly>
           </div>
           <div class="col-12 col-md-4 ">
             <label class="form-label ">الكلية</label>
-            <select class="form-select bg-body-secondary">
+            <select class="form-select bg-body-secondary" formControlName="colleague"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('colleague')?.invalid && checkoutFormGroup.get('colleague')?.touched}"
+            (change)="getDepartments()"
+            >
               <option selected disabled>--اختر الكلية--</option>
-              <option>الهندسة</option>
+              @for (item of colleagues;track item.id){
+                <option>{{ item.name }}</option>
+              }
             </select>
+            @if (checkoutFormGroup.get('colleague')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
           <div class="col-12 col-md-4 ">
             <label class="form-label ">القسم</label>
-            <select class="form-select bg-body-secondary">
+            <select class="form-select bg-body-secondary" formControlName="department"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('department')?.invalid && checkoutFormGroup.get('department')?.touched}"
+            >
               <option selected disabled>--اختر القسم--</option>
-              <option>النظم و الحاسبات</option>
+              @for (item of departments ;track item.id){
+                <option>{{ item.name }}</option>
+              }
             </select>
+            @if (checkoutFormGroup.get('department')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
         </div>
         <div class="row mb-3 text-start">
           <div class="col-12 col-md-4 ">
             <label class="form-label ">الفرقة</label>
-            <select class="form-select bg-body-secondary">
+            <select class="form-select bg-body-secondary" formControlName="stage"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('stage')?.invalid && checkoutFormGroup.get('stage')?.touched}"
+            >
               <option selected disabled>--اختر الفرقة--</option>
-              <option>النظم و الحاسبات</option>
+              <option>الفرقة الأولى</option>
+              <option>الفرقة الثانية</option>
+              <option>الفرقة الثالثة</option>
+              <option>الفرقة الرابعة</option>
+
             </select>
+            @if (checkoutFormGroup.get('stage')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
           <div class="col-12 col-md-4 ">
             <label class="form-label ">التقدير</label>
-            <select class="form-select bg-body-secondary">
+            <select class="form-select bg-body-secondary" formControlName="grade"
+                    [ngClass]="{'is-invalid':checkoutFormGroup.get('grade')?.invalid && checkoutFormGroup.get('grade')?.touched}"
+            >
               <option selected disabled>--اختر التقدير--</option>
+              <option>امتياز</option>
+              <option>جيدجدا</option>
               <option>جيد</option>
+              <option>مقبول</option>
+              <option>باقى للاعادة</option>
             </select>
+            @if (checkoutFormGroup.get('grade')?.errors?.['required']) {
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
           </div>
         </div>
         <div class="border-bottom border-black my-3"></div>
@@ -113,12 +222,32 @@
         <div class="row mb-3 text-start">
           <div class="col-12 col-md-6">
             <label class="form-label">صورة الطالب</label>
-            <input type="file" class="form-control bg-body-secondary" id="studentImage">
+            <input type="file" class="form-control bg-body-secondary" id="studentImage"
+                   (change)="onFileChange($event,'studentImage')"
+
+                   accept="image/png, image/jpeg, image/gif"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('studentImage')?.invalid && checkoutFormGroup.get('studentImage')?.touched}"
+            >
+            @if (checkoutFormGroup.get('studentImage')?.errors?.['required'] && checkoutFormGroup.get('studentImage')?.touched) {
+              <div class="invalid-feedback">
+                يرجى رفع صورة شخصية للطالب
+              </div>
+            }
             <small class="form-text text-muted">يرجى رفع صورة شخصية للطالب (JPG, PNG, GIF).</small>
           </div>
           <div class="col-12 col-md-6">
             <label for="studentPdf" class="form-label">ملف PDF</label>
-            <input type="file" class="form-control bg-body-secondary" id="studentPdf" accept=".pdf">
+            <input type="file" class="form-control bg-body-secondary" id="studentPdf"
+                   (change)="onFileChange($event,'studentPdf')"
+
+                   accept=".pdf"
+                   [ngClass]="{'is-invalid':checkoutFormGroup.get('studentPdf')?.invalid && checkoutFormGroup.get('studentPdf')?.touched}"
+            >
+            @if (checkoutFormGroup.get('studentPdf')?.errors?.['required'] && checkoutFormGroup.get('studentPdf')?.touched) {
+              <div class="invalid-feedback">
+                يرجى رفع ملف pdf
+              </div>
+            }
             <small class="form-text text-muted">يرجى رفع ملف PDF (يحتوى على صورة بطاقة الطالب و ولى الامر).</small>
           </div>
         </div>
@@ -127,17 +256,19 @@
         </div>
 
         <div class="text-end mt-5">
-          <button type="submit" class="btn btn-primary">إرسال طلب التسجيل</button>
+          <button [disabled]="checkoutFormGroup.invalid" type="submit" class="btn btn-primary">إرسال طلب التسجيل
+          </button>
         </div>
       </form>
     </div>
   } @else {
     <div class="row justify-content-center">
       <div class="close-container">
-        <div >
+        <div>
           <i class="fas fa-exclamation-circle card-icon"></i>
           <p class="fs-1 fw-bold mb-3"> عفواً!</p>
-          <p class="text-muted fs-4">تم غلق باب التسجيل في المدينة الجامعية لهذا العام. نتمنى لكم عاماً دراسياً موفقاً.</p>
+          <p class="text-muted fs-4">تم غلق باب التسجيل في المدينة الجامعية لهذا العام. نتمنى لكم عاماً دراسياً
+            موفقاً.</p>
         </div>
         <div class="btn btn-primary rounded-4 mt-5">العودة الى الصفحة الرئيسية</div>
       </div>

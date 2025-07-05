@@ -1,0 +1,22 @@
+
+.error-message {
+  color: #dc3545;
+  font-size: 20px;
+  margin: 10px;
+  text-align: center;
+}
+.card {
+  animation: fadeInUp 0.6s ease;
+  background-color: #ffffff;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

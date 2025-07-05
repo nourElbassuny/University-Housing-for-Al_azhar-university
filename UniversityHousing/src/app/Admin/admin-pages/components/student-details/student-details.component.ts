@@ -46,6 +46,7 @@ export class StudentDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getStudentId();
     this.getStudentById(this.studentId);
+    this
   }
 
   getStudentById(id: number): void {

@@ -1,4 +1,4 @@
-package com.universityHousing.backend_university_housing.entity;
+package com.universityHousing.backend_university_housing.ENUM;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.universityHousing.backend_university_housing.entity.Permission.*;
+import static com.universityHousing.backend_university_housing.ENUM.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {

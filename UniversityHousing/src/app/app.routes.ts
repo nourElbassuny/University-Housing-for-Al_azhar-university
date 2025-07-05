@@ -1,4 +1,4 @@
-import {provideRouter, Router, Routes} from '@angular/router';
+import {ExtraOptions, provideRouter, Router, Routes, withRouterConfig} from '@angular/router';
 
 import {
   OktaAuthModule,
@@ -12,39 +12,63 @@ import {OktaAuth} from '@okta/okta-auth-js';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 
-import {InsertDataComponent} from './Student/insert-data/insert-data.component';
+import {InsertDataComponent} from './Student/student-pages/insert-data/insert-data.component';
 import {StudentDetailsComponent} from './Admin/admin-pages/components/student-details/student-details.component';
 import {StudentsListComponent} from './Admin/admin-pages/components/students-list/students-list.component';
 import {RoomDetailsComponent} from './Admin/admin-pages/components/room-details/room-details.component';
 import {RoomsListComponent} from './Admin/admin-pages/components/rooms-list/rooms-list.component';
-import {LoginComponent} from './Admin/admin-pages/components/login/login.component';
+import {LoginComponent} from './Uthentication/login/login.component';
 import {EmployeesComponent} from './Admin/admin-pages/components/employees/employees.component';
 import {DashboardComponent} from './Admin/admin-pages/components/dashboard/dashboard.component';
+import {HomeComponent} from './Student/student-pages/home/home.component';
+import {StudentHolidaysComponent} from './Student/student-pages/student-holidays/student-holidays.component';
+import {ChatComponent} from './Student/student-pages/chat/chat.component';
+import {RoomComponent} from './Student/student-pages/room/room.component';
+import {StudentProfileComponent} from './Student/student-pages/student-profile/student-profile.component';
+import {StudentSetingsComponent} from './Student/student-pages/student-setings/student-setings.component';
+import {StudentFormComponent} from './Student/student-pages/student-form/student-form.component';
+import {RegisterComponent} from './Uthentication/register/register.component';
+import {authGuard} from './guards/auth.guard';
+import {adminGuard} from './guards/admin.guard';
+import {StudentsRequestsComponent} from './Admin/admin-pages/components/students-requests/students-requests.component';
 
-function sendToLoginPage(oktaAuth: OktaAuth,injector:Injector) {
-  const  router=injector.get(Router);
-  router.navigate(['/login'])
-}
 
 export const routes: Routes = [
-  {path:'studentDetails/:id',component:StudentDetailsComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-  {path:'studentsList',component:StudentsListComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-  {path:'roomDetails/:id',component:RoomDetailsComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-  {path:'rooms',component:RoomsListComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-   {path:'login/callback',component:OktaCallbackComponent},
-  {path:'login',component:LoginComponent},
-  {path: 'dashboard', component: DashboardComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-  {path:'employees',component:EmployeesComponent,canActivate:[OktaAuthGuard],
-    data:{onAuthRequired:sendToLoginPage}},
-  {path:'insertData',component:InsertDataComponent},
-  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: '**', redirectTo: '/dashboard', pathMatch: 'full'},
+  {path: "student/home", component: HomeComponent},
+  {path: 'student/profile', component: StudentProfileComponent, canActivate: [authGuard]},
+  {path: 'student/settings', component: StudentSetingsComponent, canActivate: [authGuard]},
+  {path: 'student/studentForm', component: StudentFormComponent, canActivate: [authGuard]},
+  {path: 'student/holidays', component: StudentHolidaysComponent, canActivate: [authGuard]},
+
+  //admin routes
+  {path: 'admin/dashboard', component: DashboardComponent,canActivate:[adminGuard]},
+  {path: 'admin/studentsList', component: StudentsListComponent,canActivate:[adminGuard]},
+  {path: 'admin/roomDetails/:id', component: RoomDetailsComponent,canActivate:[adminGuard]},
+  {path: 'studentDetails/:id', component: StudentDetailsComponent,canActivate:[adminGuard]},
+  {path: 'admin/rooms', component: RoomsListComponent,canActivate:[adminGuard]},
+  {path: 'admin/employees', component: EmployeesComponent,canActivate:[adminGuard]},
+  {path:'admin/studentRequest',component:StudentsRequestsComponent,canActivate:[adminGuard]},
+
+
+  {path: 'insertData', component: InsertDataComponent},
+  {path: 'student/room', component: RoomComponent},
+
+
+  {path: 'api/auth/authenticate', component: LoginComponent},
+  {path: "api/auth/register", component: RegisterComponent},
+  {path: 'student/chat', component: ChatComponent},
+
+
+  {path: '', redirectTo: '/student/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/student/home', pathMatch: 'full'},
 ];
+
+const routerConfig:ExtraOptions={
+  scrollPositionRestoration:'top',
+  anchorScrolling:'enabled',
+  scrollOffset:[0,0]
+}
+
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes),importProvidersFrom(OktaAuthModule),]
+  providers: [provideRouter(routes,withRouterConfig(routerConfig)), importProvidersFrom(OktaAuthModule),]
 });

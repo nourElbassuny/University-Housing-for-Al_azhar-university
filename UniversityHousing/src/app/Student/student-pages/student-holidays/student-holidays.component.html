@@ -1,32 +1,42 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="card col-6" >
+    <div class="card col-6">
       <div class="card-header">
         <div class="text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-calendar2-week" viewBox="0 0 16 16">
-            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
-            <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+               class="bi bi-calendar2-week" viewBox="0 0 16 16">
+            <path
+              d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+            <path
+              d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
           </svg>
           <span class="m-1 fs-3">ارسال طلب اجازة</span>
         </div>
       </div>
-      <form>
+      <form [formGroup]="checkoutForm" (ngSubmit)="save()">
         <div class="card-body">
           <div class="mb-3">
-            <label  class="form-label "> تاريخ بداية الأجازة</label>
-            <input type="date" class="form-control" id="startDate">
+            <label class="form-label "> تاريخ بداية الأجازة</label>
+            <input type="date" class="form-control" id="startDate" formControlName="startDate"
+                   [ngClass]="{'is-invalid':checkoutForm.get('startDate')?.invalid&&checkoutForm.get('startDate')?.touched}">
+            @if (checkoutForm.get('startDate')?.errors?.['required']){
+              <div class="invalid-feedback">هذا الحقل مطلوب</div>
+            }
             <span>
-            <label  class="form-label "> تاريخ نهاية الأجازة</label>
-            <input type="date" class="form-control" id="endDate">
+            <label class="form-label "> تاريخ نهاية الأجازة</label>
+            <input type="date" class="form-control" id="endDate" formControlName="endDate"  [ngClass]="{'is-invalid':checkoutForm.get('endDate')?.invalid&&checkoutForm.get('endDate')?.touched}">
+              @if (checkoutForm.get('endDate')?.errors?.['required']){
+                <div class="invalid-feedback">هذا الحقل مطلوب</div>
+              }
             </span>
           </div>
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" id="description" rows="3" placeholder="سبب او تفاصيل الاجازة"></textarea>
+            <textarea class="form-control" id="description" rows="3" placeholder="سبب او تفاصيل الاجازة" formControlName="reason"></textarea>
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-success">ارسال طلب الاجازة</button>
+          <button class="btn btn-success" [disabled]="checkoutForm.invalid">ارسال طلب الاجازة</button>
         </div>
       </form>
     </div>
@@ -42,18 +52,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th>1</th>
-          <td>2025-05-01</td>
-          <td>2025-05-03</td>
-          <td>Labor Day Holiday</td>
-        </tr>
-        <tr>
-          <th>2</th>
-          <td>2025-04-10</td>
-          <td>2025-04-12</td>
-          <td>Eid Al-Fitr</td>
-        </tr>
+          @for (item of studentAbsences; track item.id ;let i= $index) {
+            <tr>
+              <th>{{i+1}}</th>
+              <td>{{item.startDate}}</td>
+              <td>{{item.endDate}}</td>
+              <td>{{item.reason}}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>

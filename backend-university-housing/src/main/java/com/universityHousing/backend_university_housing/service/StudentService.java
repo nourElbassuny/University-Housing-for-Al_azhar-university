@@ -1,104 +1,100 @@
 package com.universityHousing.backend_university_housing.service;
 
+
 import com.universityHousing.backend_university_housing.dao.studentRepository.StudentRepo;
 import com.universityHousing.backend_university_housing.dto.StudentDTO;
 import com.universityHousing.backend_university_housing.entity.Student;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import com.universityHousing.backend_university_housing.entity.StudentFile;
+import com.universityHousing.backend_university_housing.entity.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
     private final StudentRepo studentRepo;
 
-    @Autowired
-    public StudentService(StudentRepo studentRepo) {
-        this.studentRepo = studentRepo;
+    public Page<StudentDTO> getAllStudents(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return studentRepo.findAllStudent(pageable);
     }
 
 
-    public List<StudentDTO> getStudentList() {
-        List<Object[]> students = studentRepo.findStudentList();
-        List<StudentDTO> studentDTOS = new ArrayList<>();
-        for (Object[] row : students) {
-            StudentDTO dto = new StudentDTO(
-                    ((Number) row[0]).intValue(),
-                    (String) row[1],
-                    (String) row[2],
-                    (String) row[3],
-                    (String) row[4],
-                    (String) row[5],
-                    (String) row[6],
-                    (String) row[7]
-            );
-            studentDTOS.add(dto);
-        }
-        return studentDTOS;
+
+    public ResponseEntity<List<StudentDTO>> findStudentByRoomId(int roomId) {
+        var students = studentRepo.findStudentsByRoomId(roomId).orElseThrow(() -> new RuntimeException("this room is empty"));
+        return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
-    public List<StudentDTO> getAllStudents() {
-        List<Student> students = studentRepo.findAll();
-        return students.stream().map(s -> new StudentDTO(
-                s.getId(),
-                s.getName(),
-                s.getEmail(),
-                s.getPhone(),
-                s.getGender(),
-                s.getBirthday(),
-                s.getCity(),
-                s.getAddress(),
-                s.getColleague(),
-                s.getDepartment(),
-                s.getGrade(),
-                s.getStage(),
-                s.getGovernorate(),
-                s.getStatus(),
-                s.getNationalId()
-        )).collect(Collectors.toList());
+    public ResponseEntity<StudentDTO> getCurrentStudentData() {
+        var userId = getCurrentUser().getId();
+        var student = studentRepo.findStudent(userId).orElseThrow(() -> new RuntimeException("this student is not found"));
+
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Map<String,String>>getStudentImage(){
+        var userId = getCurrentUser().getId();
+        var studentImage=studentRepo.findStudentImageById(userId).orElseThrow(() -> new RuntimeException("this student is not found"));
+        String base64Image= Base64.getEncoder().encodeToString(studentImage);
+        return ResponseEntity.ok(Map.of("image", base64Image));
     }
 
     @Transactional
-    public Student saveStudent(Student student, MultipartFile imageFile) throws IOException {
-        if (imageFile != null && !imageFile.isEmpty()) {
-            student.setImage(imageFile.getBytes());
+    public ResponseEntity<Map<String, String>> saveStudent(Student studentInput,
+                                                           MultipartFile image,
+                                                           MultipartFile file) throws IOException {
+
+        if (studentInput == null || image.isEmpty() || file.isEmpty()) {
+            return ResponseEntity.ok(Map.of("message", "Something went wrong"));
         }
-        return studentRepo.save(student);
+        var userId = getCurrentUser().getId();
+        Student student = studentRepo.findStudentById(userId).orElseThrow(
+                () -> new RuntimeException("Student Not Found")
+        );
+
+
+        student.setArabicName(studentInput.getArabicName());
+        student.setEnglishName(studentInput.getEnglishName());
+        student.setPhone(studentInput.getPhone());
+        student.setGender(studentInput.getGender());
+        student.setState(studentInput.getState());
+        student.setAddress(studentInput.getAddress());
+        student.setColleague(studentInput.getColleague());
+        student.setDepartment(studentInput.getDepartment());
+        student.setGrade(studentInput.getGrade());
+        student.setStage(studentInput.getStage());
+        student.setGovernorate(studentInput.getGovernorate());
+        student.setStatus(studentInput.getStatus());
+        student.setNationalId(studentInput.getNationalId());
+        student.setBirthday(studentInput.getBirthday());
+        student.setImage(image.getBytes());
+        ;
+
+        StudentFile studentFile = new StudentFile();
+        studentFile.setFileData(file.getBytes());
+        studentFile.setStudent(student);
+        student.setStudentFile(studentFile);
+        studentRepo.save(student);
+        return ResponseEntity.ok(Map.of("message", "Student saved successfully"));
     }
 
-    public ResponseEntity<byte[]> getImage(int id) {
-        Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
-        byte[] image = student.getImage();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG); // Or PNG, depending on what you expect
-        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+    private User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public List<StudentDTO> getStudentByRoomId(int roomId) {
-        List<Object[]> studentsObject = studentRepo.findStudentsByRoomId(roomId);
-        List<StudentDTO> studentDTOS = new ArrayList<>();
-        for (Object[] row : studentsObject) {
-            studentDTOS.add(new StudentDTO(
-                    ((Number) row[0]).intValue(),
-                    (String) row[1],
-                    (String) row[2],
-                    (String) row[3],
-                    (String) row[4],
-                    (String) row[5],
-                    (String) row[6],
-                    (String) row[7]
-                    )
-            );
-        }
-        return studentDTOS;
-    }
 }

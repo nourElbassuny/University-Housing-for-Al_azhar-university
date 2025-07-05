@@ -6,27 +6,52 @@
           الاعدادات
         </div>
         <div class="card-body">
-          <form>
+          <form [formGroup]="checkFormControl" (ngSubmit)="save()">
             <div class="mb-3">
               <label class="form-label text-start d-block">كلمة المرور الحالية</label>
-              <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="ادخل كلمة المرور الحالية...">
+              <input type="password" class="form-control" id="currentPassword" name="currentPassword"
+                     placeholder="ادخل كلمة المرور الحالية..." formControlName="currentPassword"
+                     [ngClass]="{'is-invalid':this.checkFormControl.get('currentPassword')?.invalid && this.checkFormControl.get('currentPassword')?.touched}">
+              @if (this.checkFormControl.get('currentPassword')?.errors?.['required']) {
+                <div class="invalid-feedback text-start">هذا الحقل مطلوب</div>
+              }
             </div>
+
             <div class="mb-3">
               <label class="form-label text-start d-block">كلمة المرور الجديد</label>
-              <input  type="password" class="form-control" id="newPassword" name="currentPassword" placeholder="ادخال كلمة المرور الجديد...">
+              <input type="password" class="form-control" id="newPassword" name="newPassword"
+                     placeholder="ادخال كلمة المرور الجديد..." formControlName="newPassword"
+                     [ngClass]="{'is-invalid':this.checkFormControl.get('newPassword')?.invalid && this.checkFormControl.get('newPassword')?.touched}">
+              @if (this.checkFormControl.get('newPassword')?.errors?.['required']) {
+                <div class="invalid-feedback text-start">هذا الحقل مطلوب</div>
+              }
+
             </div>
             <div class="mb-3">
               <label class="form-label text-start d-block ">تأكيد كلمة المرور الجديد</label>
-              <input  type="password" class="form-control" id="confirmPassword" name="currentPassword" placeholder="تأكيد كلمة المرور الجديد...">
+              <input type="password" class="form-control" id="confirmPassword" name="currentPassword"
+                     placeholder="تأكيد كلمة المرور الجديد..." formControlName="confirmPassword"
+                     [ngClass]="{'is-invalid':this.checkFormControl.get('confirmPassword')?.invalid && this.checkFormControl.get('confirmPassword')?.touched}">
+              @if (this.checkFormControl.get('confirmPassword')?.errors?.['required']) {
+                <div class="invalid-feedback text-start">هذا الحقل مطلوب</div>
+              }
+              @if (this.notEqual) {
+                <div class="invalid-feedback text-start">كلمتى المرور غير متضابقة</div>
+              }
             </div>
-            <div *ngIf="true" class="alert alert-danger">
-              {{ errorMessage }}
-            </div>
-            <div *ngIf="successMessage" class="alert alert-success">
-              {{ successMessage }}
-            </div>
+            @if (errorMessage) {
+              <div class="alert alert-danger">
+                {{ errorMessage }}
+              </div>
+            }
+            @if (successMessage) {
+              <div class="alert alert-success">
+                {{ successMessage }}
+              </div>
+            }
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Update Password</button>
+              <button [disabled]="checkFormControl.invalid" type="submit" class="btn btn-primary">Update Password
+              </button>
             </div>
           </form>
         </div>

@@ -20,8 +20,6 @@ public class Employee extends User {
     private String nationalId;
     @Column(name = "image")
     private String image;
-    @Column(name = "email")
-    private String email;
     public Employee() {}
 
     public Employee(String name, String job, String phone, String nationalId, String image,String email) {
@@ -30,7 +28,7 @@ public class Employee extends User {
         this.phone = phone;
         this.nationalId = nationalId;
         this.image = image;
-        this.email = email;
+
     }
 
 }

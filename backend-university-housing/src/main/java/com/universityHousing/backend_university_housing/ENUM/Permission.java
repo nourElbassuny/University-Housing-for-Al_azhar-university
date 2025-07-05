@@ -1,4 +1,4 @@
-package com.universityHousing.backend_university_housing.entity;
+package com.universityHousing.backend_university_housing.ENUM;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

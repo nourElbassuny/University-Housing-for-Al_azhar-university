@@ -1,2 +1,6 @@
-<app-admin-pages></app-admin-pages>
+@if (goToAdminPage){
+  <app-admin-pages></app-admin-pages>
+} @else {
+  <app-student-pages></app-student-pages>
+}
 

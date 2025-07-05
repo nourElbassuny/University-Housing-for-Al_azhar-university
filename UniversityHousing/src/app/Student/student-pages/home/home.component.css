@@ -102,6 +102,7 @@
   display: flex; /* Use flexbox to align content within the card */
   align-items: flex-end; /* Align overlay to the bottom */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .image-card:hover {
@@ -160,6 +161,7 @@
     align-items: center;
   }
   .image-card {
+
     width: 90%; /* Make cards wider on small screens */
     max-width: 320px; /* But don't exceed original size */
     height: auto; /* Allow height to adjust with content */

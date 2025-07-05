@@ -1,9 +1,8 @@
-
 <nav class="navbar navbar-expand-lg bg-body-secondary">
   <div class="container-fluid">
     <a class="navbar-toggler"
-            type="image"
-            aria-label="Toggle navigation">
+       type="image"
+       aria-label="Toggle navigation">
       <span>
         <img src="../../../../../assets/images/logo.ico" class="logo">
       </span>
@@ -13,31 +12,39 @@
       <img src="../../../../../assets/images/logo.ico" class="logo">
     </a>
 
+
     <div class="d-flex align-items-center">
-      <div class="nav-icon position-relative me-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-          <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
-        </svg>
-        <span class=" top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      @if (isAuthenticated) {
+        <div class="nav-icon position-relative me-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell"
+               viewBox="0 0 16 16">
+            <path
+              d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+          </svg>
+          <span class=" top-0 start-100 translate-middle badge rounded-pill bg-danger">
           3
         </span>
-      </div>
+        </div>
 
-      <div class="dropdown"  [class.show]="dropdownOpen" >
-        <a href="#" class="nav-link py-3 rounded-0 text-black d-flex"
-           data-bs-toggle="dropdown" aria-expanded="false" (click)="toggleDropdown($event)">
-          <div class="profile-circle bg-primary text-white d-flex justify-content-center align-items-center">
-            <span>U</span>
-          </div>
-        </a>
-        <ul class="dropdown-menu text-small shadow" [class.show]="dropdownOpen"
-            style="top: 200%; left: 60%; transform: translateY(-50%); position: absolute;">
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
+        <div class="dropdown" [class.show]="dropdownOpen">
+          <a href="#" class="nav-link py-3 rounded-0 text-black d-flex"
+             data-bs-toggle="dropdown" aria-expanded="false" (click)="toggleDropdown($event)">
+            <div class="profile-circle bg-primary text-white d-flex justify-content-center align-items-center">
+              <span>{{ firstCharacter }}</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu text-small shadow" [class.show]="dropdownOpen"
+              style="top: 200%; left: 60%; transform: translateY(-50%); position: absolute;">
+            <li><a class="dropdown-item" routerLink="student/settings">Settings</a></li>
+            <li><a class="dropdown-item" routerLink="student/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="home" (click)="signOut()">Sign out</a></li>
+          </ul>
+        </div>
+      } @else {
+        <div class="btn btn-outline-primary" routerLink="/api/auth/register">register</div>
+        <div class="btn btn-outline-primary me-3" routerLink="/api/auth/authenticate">login</div>
+      }
     </div>
   </div>
 </nav>

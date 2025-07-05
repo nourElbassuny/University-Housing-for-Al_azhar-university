@@ -8,11 +8,11 @@
   <div class="menu-section">
     <h3>القائمة الرئيسية</h3>
     <ul>
-      <li [ngClass]="{'active': activeItem === 'home'}" (click)="setActive('home')" routerLinkActive="active" routerLink="/dashboard"><i class="fas fa-home"></i> الواجهة الرئيسية</li>
-      <li [ngClass]="{'active': activeItem === 'students'}" (click)="setActive('students')" routerLinkActive="active" routerLink="/studentsList"><i class="fas fa-user-graduate"></i> الطلاب</li>
-      <li [ngClass]="{'active': activeItem === 'employees'}" (click)="setActive('employees')" routerLinkActive="active" routerLink="/employees"><i class="fas fa-users"></i> العاملين</li>
-      <li [ngClass]="{'active': activeItem === 'rooms'}" (click)="setActive('rooms')" routerLinkActive="active" routerLink="/rooms"> <i class="fa-solid fa-building-user"></i> الغرف</li>
-      <li><i class="fas fa-book"></i> طلبات التقديم</li>
+      <li [ngClass]="{'active': activeItem === 'home'}" (click)="setActive('home')" routerLinkActive="active" routerLink="/admin/dashboard"><i class="fas fa-home"></i> الواجهة الرئيسية</li>
+      <li [ngClass]="{'active': activeItem === 'students'}" (click)="setActive('students')" routerLinkActive="active" routerLink="/admin/studentsList"><i class="fas fa-user-graduate"></i> الطلاب</li>
+      <li [ngClass]="{'active': activeItem === 'employees'}" (click)="setActive('employees')" routerLinkActive="active" routerLink="/admin/employees"><i class="fas fa-users"></i> العاملين</li>
+      <li [ngClass]="{'active': activeItem === 'rooms'}" (click)="setActive('rooms')" routerLinkActive="active" routerLink="/admin/rooms"> <i class="fa-solid fa-building-user"></i> الغرف</li>
+      <li [ngClass]="{'active': activeItem ==='studentRequest'}" (click)="setActive('studentRequest')" routerLinkActive="active" routerLink="/admin/studentRequest"><i class="fas fa-book"></i> طلبات التقديم</li>
       <li><i class="fa-solid fa-bullhorn"></i> الاعلانات</li>
       <li><i class="fa-solid fa-dumbbell"></i> النشاط الرياضى</li>
       <li><i class="fa-solid fa-user-doctor"></i> الرعاية الصحية </li>

@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgClass, NgIf} from '@angular/common';
-import {OKTA_AUTH} from '@okta/okta-angular';
-import {OktaAuth} from '@okta/okta-auth-js';
+
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {ShareDataService} from '../../../../services/shareDataService/share-data.service';
+import {AuthService} from '../../../../../Uthentication/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,14 +21,14 @@ export class SidebarComponent implements OnInit{
   isAuthenticated: boolean = false;
   activeItem: string = 'home';
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, private shareDataService: ShareDataService) {
+  constructor(private shareDataService: ShareDataService,private authService: AuthService) {
   }
   ngOnInit() {
-    this.shareDataService.currentAuthenticated.subscribe(res=>{this.isAuthenticated=res})
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   logout():void{
-    this.oktaAuth.signOut();
+    this.authService.logout();
   }
   setActive(item: string) {
     this.activeItem = item;

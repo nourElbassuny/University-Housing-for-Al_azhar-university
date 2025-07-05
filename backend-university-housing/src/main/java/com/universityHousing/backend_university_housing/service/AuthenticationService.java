@@ -1,11 +1,13 @@
 package com.universityHousing.backend_university_housing.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.universityHousing.backend_university_housing.ENUM.Role;
+import com.universityHousing.backend_university_housing.ENUM.TokenType;
+import com.universityHousing.backend_university_housing.dao.employeeRepository.EmployeeRepository;
+import com.universityHousing.backend_university_housing.dao.studentRepository.StudentRepo;
 import com.universityHousing.backend_university_housing.dao.token.TokenRepo;
 import com.universityHousing.backend_university_housing.dao.userRepository.UserRepository;
-import com.universityHousing.backend_university_housing.entity.Token;
-import com.universityHousing.backend_university_housing.entity.TokenType;
-import com.universityHousing.backend_university_housing.entity.User;
+import com.universityHousing.backend_university_housing.entity.*;
 import com.universityHousing.backend_university_housing.request.AuthenticationRequest;
 import com.universityHousing.backend_university_housing.request.RegisterRequest;
 import com.universityHousing.backend_university_housing.response.AuthenticationResponse;
@@ -29,6 +31,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final TokenRepo tokenRepo;
     private final AuthenticationManager authenticationManager;
+    private final StudentRepo studentRepo;
+    private final EmployeeRepository employeeRepo;
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -38,15 +42,25 @@ public class AuthenticationService {
                     .refreshToken(null)
                     .build();
         }
-        var user = User.builder()
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
+        User user;
+
+//        if (request.getRole() == Role.STUDENT) {
+            Student student = new Student();
+            student.setEmail(request.getEmail());
+            student.setPassword(passwordEncoder.encode(request.getPassword()));
+            student.setRole(Role.STUDENT);
+            user = student;
+//        } else {
+//            Employee employee = new Employee();
+//            employee.setEmail(request.getEmail());
+//            employee.setPassword(passwordEncoder.encode(request.getPassword()));
+//            employee.setRole(Role.ADMIN);
+//            user = employee;
+//        }
 
         var savedUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        var jwtToken = jwtService.generateToken(savedUser);
+        var refreshToken = jwtService.generateRefreshToken(savedUser);
         var token = savedUserToken(savedUser, jwtToken);
         tokenRepo.save(token);
 
@@ -78,14 +92,14 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserToken=tokenRepo.findAllValidTokenByUser(user.getId());
-        if (validUserToken.isEmpty()){
+        var validUserToken = tokenRepo.findAllValidTokenByUser(user.getId());
+        if (validUserToken.isEmpty()) {
             return;
         }
-        validUserToken.forEach(t-> {
-                    t.setRevoked(true);
-                    t.setExpired(true);
-                });
+        validUserToken.forEach(t -> {
+            t.setRevoked(true);
+            t.setExpired(true);
+        });
         tokenRepo.saveAll(validUserToken);
     }
 
@@ -112,19 +126,19 @@ public class AuthenticationService {
         System.out.println(jwt);
         userEmail = jwtService.extractUsername(jwt);
 
-        if (userEmail != null ) {
+        if (userEmail != null) {
             var user = this.userRepository.findByEmail(userEmail)
                     .orElseThrow();
 
-            if (jwtService.isTokenValid(jwt, user) ) {
-                var accessToken=jwtService.generateToken(user);
+            if (jwtService.isTokenValid(jwt, user)) {
+                var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
-                savedUserToken(user,accessToken);
-                var authResponse=AuthenticationResponse.builder()
+                savedUserToken(user, accessToken);
+                var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
-                new ObjectMapper().writeValue(response.getOutputStream(),authResponse);
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
     }

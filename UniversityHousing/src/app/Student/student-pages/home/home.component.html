@@ -25,20 +25,21 @@
     <p class="justified-text fs-4 text-start px-3">{{text}}</p>
   </div>
 
-  <div class="card-container mt-5">
-    <div class="image-card card-2">
+  <div class="card-container mt-5" >
+    <div class="image-card card-2" [ngStyle]="{'background-image': 'url(assets/images/conditions.jpg)'}">
       <div class="card-overlay">
-        <p>معايير القبول بالمنحة</p>
+        <p>معايير القبول بالسكن</p>
       </div>
     </div>
 
-    <div class="image-card card-3">
+    <div class="image-card card-3" [ngStyle]="{'background-image': 'url(assets/images/acceptance.jpg)'}">
       <div class="card-overlay">
         <p>شروط التقديم</p>
       </div>
     </div>
 
-    <div class="image-card"  [ngStyle]="{'background-image': 'url(' + imagePath + ')'}" routerLink="/student/studentForm">
+
+    <div class="image-card"  [ngStyle]="{'background-image': 'url(assets/images/register.jpg)'}" (click)="handleCardClick()" >
       <div class="card-overlay">
         <p>سجل الآن</p>
       </div>

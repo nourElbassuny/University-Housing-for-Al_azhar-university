@@ -1,6 +1,6 @@
 import {Component, Input, LOCALE_ID, OnInit} from '@angular/core';
 import {DatePipe, formatDate} from '@angular/common';
-import {LoginStatusComponent} from '../../login-status/login-status.component';
+import {LoginStatusComponent} from '../../../../../Uthentication/login-status/login-status.component';
 import {ShareDataService} from '../../../../services/shareDataService/share-data.service';
 
 

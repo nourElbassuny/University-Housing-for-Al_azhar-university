@@ -1,6 +1,5 @@
 package com.universityHousing.backend_university_housing.request;
 
-import com.universityHousing.backend_university_housing.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     private String email;
     private String password;
-    private Role role;
 }

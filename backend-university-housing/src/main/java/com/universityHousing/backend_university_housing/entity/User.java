@@ -1,5 +1,7 @@
 package com.universityHousing.backend_university_housing.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.universityHousing.backend_university_housing.ENUM.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +28,8 @@ public  class User  implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Token>tokens;
 

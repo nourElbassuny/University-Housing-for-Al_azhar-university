@@ -1,5 +1,7 @@
 package com.universityHousing.backend_university_housing.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.universityHousing.backend_university_housing.ENUM.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +25,6 @@ public class Token {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }

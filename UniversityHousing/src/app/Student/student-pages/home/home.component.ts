@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgStyle} from '@angular/common';
 import {HeaderComponent} from '../common/header/header.component';
 import {FooterComponent} from '../common/footer/footer.component';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {AuthService} from '../../../Uthentication/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -24,14 +25,16 @@ export class HomeComponent implements OnInit {
   activeItem: string='goals';
   header: string="الأهداف";
   text:string="تنمية المهارات التكنولوجية في التقنيات الحديثة لدى الطلاب والخريجين، ولاسيما مهارات تطوير البرامج والذكاء الاصطناعي وعلوم البيانات، وتحليل الأعمال، والأمن السيبراني والفنون الرقمية، وغيرها. توفير البيئة المناسبة لبدء الأعمال الخاصة للطلاب والخريجين على منصات العمل الحر. تأهيل الطلاب والخريجين للالتحاق بوظائف مميزة في مجال تكنولوجيا المعلومات والاتصالات"
-  imagePath: string="assets/images/acceptance.jpg";
+  isAuthenticated:boolean=false;
 
 
-  constructor() { }
+  constructor(private authService: AuthService,private router:Router) { }
 
   ngOnInit(): void {
-
+    this.isAuthenticated=this.authService.isAuthenticated();
   }
+
+
 
 
   setActive(item: string) {
@@ -49,6 +52,14 @@ export class HomeComponent implements OnInit {
     }else {
       this.header="الرسالة";
       this.text="بناء وتأهيل الشباب المصري لرفع قدراتهم على المنافسة عالميا وذلك من خلال برنامج متكامل للتأهيل للعمل الحر واكتساب المهارات الرقمية المطلوبة في سوق العمل المعاصر"
+    }
+  }
+
+  handleCardClick() {
+    if (!this.isAuthenticated){
+      this.router.navigate(["/api/auth/authenticate"])
+    }else {
+      this.router.navigate(["/student/studentForm"])
     }
   }
 
