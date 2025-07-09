@@ -1,143 +1,52 @@
-/* General Body and Container */
-body {
-  font-family: 'Inter', sans-serif; /* Example: Import from Google Fonts */
-  background-color: #f8f9fa; /* Light background */
-}
-
-.container.my-5 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-/* Card Styling */
-.card {
-  border: none;
-  border-radius: 1rem; /* More pronounced rounded corners */
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
-}
-
-/* Image + QR Column */
-.col-md-4.bg-light {
-  background-color: #f0f4f8 !important; /* Slightly darker light background */
-  border-right: 1px solid rgba(0, 0, 0, 0.05); /* Subtle separator */
-  padding: 2.5rem; /* More padding */
-  border-radius: 1rem 0 0 1rem; /* Rounded only on the left */
-}
-.card .img-fluid {
-  border: 4px solid rgba(0, 123, 255, 0.1); /* Lighter border for image */
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
-}
-.qrcode-hover {
-  transition: transform 0.3s ease-in-out;
-}
-.qrcode-hover:hover {
-  transform: scale(1.05); /* Subtle hover effect */
-}
-.h4.fw-bold.text-primary {
-  color: #0056b3 !important; /* Darker primary color for name */
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-.badge.bg-secondary {
-  background-color: #6c757d !important;
-  font-size: 0.9rem;
-  padding: 0.6em 1.2em;
-  border-radius: 50px; /* Pill shape */
-}
-
-
-/* Details Column */
-.col-md-8 {
-  padding: 2.5rem; /* Consistent padding */
-}
-.h5.fw-bold.text-dark {
-  color: #343a40 !important;
-  margin-bottom: 2rem; /* More space below heading */
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e9ecef; /* Subtle line below heading */
-}
-.h5.fw-bold.text-dark i {
-  color: #007bff; /* Use the primary color for icons here */
-}
-
-.row.gy-3 > div {
-  margin-bottom: 1rem; /* Adjust vertical spacing between detail lines */
-  font-size: 0.95rem; /* Slightly smaller text for details */
-  color: #495057; /* Softer text color */
-}
-
-.row.gy-3 i {
-  color: #007bff; /* Consistent icon color for details */
-  width: 20px; /* Ensure consistent icon alignment */
-  text-align: center;
-}
-
-/* Specific detail group spacing */
-.row.gy-3 .col-md-6:nth-child(even) {
-  /* You can add top margin here to group details visually */
-  /* For example, add a top margin to create sections: */
-  /* margin-top: 1rem; */
-}
-
-
-/* PDF Button */
-.btn-outline-danger {
-  color: #dc3545;
-  border-color: #dc3545;
-  transition: all 0.3s ease;
-  border-radius: 0.5rem; /* Slightly more rounded button */
-}
-.btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: #fff;
-  box-shadow: 0 0.25rem 0.75rem rgba(220, 53, 69, 0.2);
-}
-
-/* PDF Modal */
-.modal-content {
-  border-radius: 1rem;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
-}
-.modal-header {
-  background-color: #f8f9fa; /* Light header */
-  border-bottom: none;
-  padding: 1.5rem;
-}
-.modal-title i {
-  color: #dc3545;
-}
-.modal-body {
-  padding: 0; /* Remove padding if iframe fills */
-}
-.modal-footer {
-  background-color: #f8f9fa; /* Light footer */
-  border-top: none;
-  padding: 1rem 1.5rem;
-}
-.btn-outline-primary {
-  border-radius: 0.5rem;
-}
-
-/* Existing Sidebar CSS - keep as is, or refine colors */
-/* The provided sidebar CSS is functional for responsiveness. */
-/* If you want to integrate the color palette, adjust .nav-link.active and general sidebar background. */
-
-/* Example: Modernizing sidebar colors */
-.nav .nav-item a.nav-link.active {
-  background-color: #007bff; /* Your primary color */
+ .nav-item a.nav-link.active{
   color: #fff !important;
 }
-.sidebar {
-  background-color: #343a40; /* Darker sidebar */
-  color: #f8f9fa;
+.sidebar.expanded {
+  width: 200px;
 }
-.sidebar .nav-link {
-  color: rgba(255, 255, 255, 0.7);
+.sidebar .nav-link span, .sidebar .nav-link small{
+  display: none;
 }
-.sidebar .nav-link:hover {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
+.sidebar.expanded .nav-link span, .sidebar.expanded .nav-link small{
+  display: inline;
 }
+.sidebar .nav-link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar.expanded .nav-link{
+  flex-direction: row;
+  justify-content: start;
+  gap: 10px;
+}
+@media (max-width: 767px){
+  .sidebar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 60px !important;
+    z-index: 999;
+  }
+  .sidebar .nav{
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .sidebar .nav-link span, .sidebar .nav-link small{
+    display: none !important;
+  }
+  .border-top{
+    border-top:unset !important;
+  }
+  .border-bottom{
+    border-bottom:unset !important;
+  }
+  #toggleSidebar{
+    display: none !important;
+  }
 
-/* For grouped information, you might add specific classes */
-/* .info-group { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px dashed #eee; } */
+}
