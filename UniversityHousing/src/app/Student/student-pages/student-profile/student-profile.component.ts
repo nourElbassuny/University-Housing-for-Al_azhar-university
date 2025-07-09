@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StudentsService} from '../../../Admin/services/studentService/students.service';
 import {Student} from '../../../Classes/student/student';
 import {DatePipe, NgClass} from '@angular/common';
 import {QRCodeComponent} from 'angularx-qrcode';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -18,9 +19,9 @@ import {QRCodeComponent} from 'angularx-qrcode';
   styleUrl: './student-profile.component.css'
 })
 export class StudentProfileComponent implements OnInit {
-
+  @ViewChild('barcode', {static: false}) barcodeElement!: ElementRef;
   student!: Student;
-  studentId: number=80;
+
 
   constructor(private studentService: StudentsService) {
   }
@@ -38,33 +39,24 @@ export class StudentProfileComponent implements OnInit {
     )
 
     this.studentService.getStudent().subscribe(
-      res => this.student = res,
+      res => {
+        this.student = res
+      },
       error => alert(error.message),
     )
 
 
-
   }
 
-
-  getStudentStatus(status: string): string {
-    switch (status) {
-      case 'PENDING_REVIEW':
-        return 'جارٍ مراجعة الملف';
-      case 'APPROVED':
-        return 'تمت الموافقة';
-      case 'REJECTED':
-        return 'تم الرفض';
-      default:
-        return 'غير معروف';
-    }
-  }
-
-  downloadQrCode() {
-
-  }
 
   downloadBarcode() {
-
+    html2canvas(this.barcodeElement.nativeElement).then(canvas => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'barcode.png';
+      link.click();
+    });
   }
+
+  protected readonly String = String;
 }

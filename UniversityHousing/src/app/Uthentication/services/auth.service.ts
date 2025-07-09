@@ -15,6 +15,8 @@ export class AuthService {
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   authStatus$ = this.authStatus.asObservable();
 
+
+
   constructor(private http: HttpClient, private router: Router) {
 
   }
@@ -40,6 +42,7 @@ export class AuthService {
         next: () => {
           console.log('Logout success');
           localStorage.clear();
+          this.authStatus.next(false);
           this.router.navigate(['/login']);
         }, error: (err) => {
           console.error('Logout failed:');
@@ -61,6 +64,8 @@ export class AuthService {
     localStorage.setItem("role", String(decode?.role ?? ''));
     localStorage.setItem("exp", String(decode?.exp ?? ''));
     console.log(decode?.sub)
+
+    this.authStatus.next(true);
   }
 
   public changePassword(request:ChangePasswordRequest): Observable<{message:string}>{

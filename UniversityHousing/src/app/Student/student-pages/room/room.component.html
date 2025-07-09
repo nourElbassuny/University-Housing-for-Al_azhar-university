@@ -8,8 +8,7 @@
   } @else {
     <div class="row">
       <div class="col-md-2" *ngFor="let item of rooms">
-        <div class="card mb-4 shadow-sm hover-card" routerLink="/admin/roomDetails/{{item.id}}"
-             (click)="passingRoom(item)">
+        <div class="card mb-4 shadow-sm hover-card">
           <div class="card-body text-end">
             <h5 class="card-title text-primary d-flex justify-content-between">الغرفة {{ item.roomNumber }}</h5>
             <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">مبنى {{ item.buildingName }} </h6>
@@ -59,6 +58,24 @@
                 <i class="fas fa-calendar-check me-2"></i> حجز
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" #successModal id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header">
+            <h5 class="modal-title text-success fw-bold" id="bookingSuccessLabel">نجاح</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+          </div>
+          <div class="modal-body fs-5">
+            <i class="fas fa-check-circle text-success fa-2x mb-2"></i><br>
+            تم الحجز بنجاح
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">حسناً</button>
           </div>
         </div>
       </div>

@@ -260,6 +260,26 @@
           </button>
         </div>
       </form>
+      <!-- Modal -->
+      <div class="modal fade" #successModal id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <div class="modal-header">
+              <h5 class="modal-title text-success fw-bold" id="successModalLabel">تم التسجيل</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body fs-4">
+              تم التسجيل بنجاح
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">حسناً</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   } @else {
     <div class="row justify-content-center">

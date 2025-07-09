@@ -1,14 +1,17 @@
-
 <div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-12 card position-relative" style="background: #dee2e6" id="card">
 
-      <div class="qrcode-wrapper" #barcode>
-        <qrcode [qrdata]="studentId.toString()" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
-        <button class="btn btn-sm btn-primary btn-download w-100 mt-2" (click)="downloadBarcode()">
-          اضغط هنا للاحتفاظ بالباركود
-        </button>
-      </div>
+      @if (student.status === 'مقبول') {
+        <div class="qrcode-wrapper">
+          <div #barcode>
+            <qrcode [qrdata]="String(student.id)" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+          </div>
+          <button class="btn btn-sm btn-primary btn-download w-100 mt-2" (click)="downloadBarcode()">
+            اضغط هنا للاحتفاظ بالباركود
+          </button>
+        </div>
+      }
 
       <div class="text-center mb-4">
         <div class="card-img">
@@ -162,33 +165,35 @@
           </div>
         </div>
       </div>
-      <h3 class="mb-3 text-primary text-start">بيانات السكن</h3>
-      <div class="row g-5 mb-3">
-        <div class="col-md-4">
-          <div class="bg-white rounded p-1 h-100">
-            <div class="m-1">
-              <div class="label text-start text-secondary">المبنى</div>
-              <div class="text-start fw-bold">الطيب</div>
+      @if (student.status=='مقبول'){
+        <h3 class="mb-3 text-primary text-start">بيانات السكن</h3>
+        <div class="row g-5 mb-3">
+          <div class="col-md-4">
+            <div class="bg-white rounded p-1 h-100">
+              <div class="m-1">
+                <div class="label text-start text-secondary">المبنى</div>
+                <div class="text-start fw-bold">الطيب</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="bg-white rounded p-1 h-100">
+              <div class="m-1">
+                <div class="label text-start text-secondary">الدور</div>
+                <div class="text-start fw-bold">الأول</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="bg-white rounded p-1 h-100">
+              <div class="m-1">
+                <div class="label text-start text-secondary">رقم الغرفة</div>
+                <div class="text-start fw-bold">2</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="bg-white rounded p-1 h-100">
-            <div class="m-1">
-              <div class="label text-start text-secondary">الدور</div>
-              <div class="text-start fw-bold">الأول</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="bg-white rounded p-1 h-100">
-            <div class="m-1">
-              <div class="label text-start text-secondary">رقم الغرفة</div>
-              <div class="text-start fw-bold">2</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </div>

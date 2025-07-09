@@ -2,6 +2,7 @@ import {Component, Input, LOCALE_ID, OnInit} from '@angular/core';
 import {DatePipe, formatDate} from '@angular/common';
 import {LoginStatusComponent} from '../../../../../Uthentication/login-status/login-status.component';
 import {ShareDataService} from '../../../../services/shareDataService/share-data.service';
+import {AuthService} from '../../../../../Uthentication/services/auth.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   currentDateTime: Date = new Date();
 
   private intervalId: any; // To track the interval
-  constructor(private sharedData: ShareDataService,) {
+  constructor() {
   }
   ngOnInit() {
 

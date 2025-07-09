@@ -46,7 +46,7 @@ export class StudentsListComponent implements OnInit {
   ngOnInit() {
     this.getGovernorate();
     this.getCollage();
-    this.applyFilter();
+    this.applyFilter(0);
   }
 
   private getAllStudents(page: number) {
@@ -59,9 +59,9 @@ export class StudentsListComponent implements OnInit {
   }
 
 
-  applyFilter() {
+  applyFilter(page: number) {
     console.log(this.filters)
-    this.studentService.getFilteredStudents(this.filters).subscribe(data => {
+    this.studentService.getFilteredStudents(this.filters,page).subscribe(data => {
         this.studentList = data.content;
         this.totalPages = data.totalPage;
         this.currentPage = data.currentPage;
@@ -89,7 +89,7 @@ export class StudentsListComponent implements OnInit {
     )
   }
 
-  goToPage(number: number) {
-    this.getAllStudents(number);
+  goToPage(page: number) {
+    this.applyFilter(page);
   }
 }

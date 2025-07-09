@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {StudentAbsence, StudentsService} from '../../../Admin/services/studentService/students.service';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgClass} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-student-holidays',
@@ -17,7 +18,7 @@ import {NgClass} from '@angular/common';
 export class StudentHolidaysComponent implements OnInit{
   checkoutForm:FormGroup;
   studentAbsences:StudentAbsence[]=[];
-  constructor(private fb:FormBuilder,private studentService:StudentsService) {
+  constructor(private fb:FormBuilder,private studentService:StudentsService,private router:Router) {
     this.checkoutForm=this.fb.group({
       startDate: ['',Validators.required],
       endDate:['',Validators.required],
@@ -48,7 +49,11 @@ export class StudentHolidaysComponent implements OnInit{
       reason:this.checkoutForm.value?.reason
     }
     this.studentService.saveStudentAbsence(data).subscribe(
-      res=>{},
+      res=>{
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/student/holidays']);
+        });
+      },
       error => {alert(error.message)}
     )
   }

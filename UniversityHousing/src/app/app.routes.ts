@@ -12,7 +12,6 @@ import {OktaAuth} from '@okta/okta-auth-js';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 
-import {InsertDataComponent} from './Student/student-pages/insert-data/insert-data.component';
 import {StudentDetailsComponent} from './Admin/admin-pages/components/student-details/student-details.component';
 import {StudentsListComponent} from './Admin/admin-pages/components/students-list/students-list.component';
 import {RoomDetailsComponent} from './Admin/admin-pages/components/room-details/room-details.component';
@@ -54,9 +53,6 @@ export const routes: Routes = [
   {path:'admin/settings',component:SettingsComponent,canActivate:[adminGuard]},
   {path:'admin/food',component:FoodComponent,canActivate:[adminGuard]},
 
-
-
-  {path: 'insertData', component: InsertDataComponent},
 
 
 

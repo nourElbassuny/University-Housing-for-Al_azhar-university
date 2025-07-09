@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import {CardValidators} from '../../../validators/card-validators';
 import {NgClass} from '@angular/common';
@@ -23,6 +23,7 @@ import {Department} from '../../../Classes/department/department';
 })
 export class StudentFormComponent implements OnInit {
   checkoutFormGroup: FormGroup = new FormGroup({})
+  @ViewChild('successModal') successModal!: ElementRef;
   userEmail: string = ""
   errorText: string = "يجب ملء هذا الحقل";
   isRegistrationEnabled: boolean = true;
@@ -86,9 +87,19 @@ export class StudentFormComponent implements OnInit {
     }
     this.setStudent();
     this.studentService.saveStudent(this.buildFormData()).subscribe(
-      res => console.log(res.message),
+      res => {
+        console.log(res.message)
+        this.showSuccessModal();
+        this.checkoutFormGroup.reset();
+      },
       error => alert(error.message)
     );
+  }
+
+  private showSuccessModal(){
+    console.log("Trying to show modal...");
+    const modal = new (window as any).bootstrap.Modal(this.successModal.nativeElement);
+    modal.show();
   }
 
   private getRegisterStatus() {

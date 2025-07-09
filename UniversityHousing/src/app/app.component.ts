@@ -14,17 +14,19 @@ import {AuthService} from './Uthentication/services/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'UniversityHousing';
-  isAdmin: boolean=false;
-  goToAdminPage: boolean=false;
+  isAdmin: boolean = false;
+  goToAdminPage: boolean = false;
 
-
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-   this.isAdmin=this.authService.isAdmin();
-    this.goToAdminPage=this.authService.goToAdminPage();
+
+    this.authService.authStatus$.subscribe(status => {
+      this.isAdmin = this.authService.isAdmin();
+      this.goToAdminPage = this.authService.goToAdminPage();
+    });
+
+    this.isAdmin = this.authService.isAdmin();
+    this.goToAdminPage = this.authService.goToAdminPage();
   }
-
-
 }

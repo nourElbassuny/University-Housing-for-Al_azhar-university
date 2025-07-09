@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Room} from '../../../Classes/room/room';
 import {RoomService} from '../../../Admin/services/roomService/room.service';
 import {StudentsService} from '../../../Admin/services/studentService/students.service';
@@ -22,9 +22,10 @@ import {Student} from '../../../Classes/student/student';
 export class RoomComponent implements OnInit {
   rooms!: Room[];
   student!: Student;
-  studentAssigmentStatus:boolean=false;
+  studentAssigmentStatus: boolean = false;
+  @ViewChild('successModal') successModal!: ElementRef;
 
-  constructor(private roomService: RoomService, private studentService: StudentsService, private router: ActivatedRoute) {
+  constructor(private roomService: RoomService, private studentService: StudentsService, private router: Router) {
   }
 
   ngOnInit() {
@@ -42,9 +43,9 @@ export class RoomComponent implements OnInit {
 
   getStudentAssigmentStatus() {
     this.roomService.findStudentAssignment().subscribe(
-      res=>{
-        this.studentAssigmentStatus=res.status;
-      },error => alert(error.message),
+      res => {
+        this.studentAssigmentStatus = res.status;
+      }, error => alert(error.message),
     )
   }
 
@@ -62,8 +63,18 @@ export class RoomComponent implements OnInit {
   bookRoom(item: number) {
     console.log(item);
     this.roomService.makeBooking(item).subscribe(
-      res => console.log(res),
+      res => {
+        console.log(res)
+        console.log("تم الحجز:", res);
+        this.showSuccessModal();
+        this.router.navigate(['/home']);
+      },
       error => alert(error.message),
     )
+  }
+
+  private showSuccessModal() {
+    const modal = new (window as any).bootstrap.Modal(this.successModal.nativeElement);
+    modal.show();
   }
 }

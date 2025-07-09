@@ -36,9 +36,9 @@ export class StudentsService {
     return this.http.get<{status:boolean}>(`${this.baseUrl}api/admin/get-student-active?studentId=${studentId}`,{headers:this.headers});
   }
 
-  getFilteredStudents(filters: any) {
+  getFilteredStudents(filters: any,page:number): Observable<PaginatedStudentResponse> {
     console.log(filters.governorate)
-    return this.http.get<PaginatedStudentResponse>(`${this.baseUrl}api/admin/get-students-withFilter?page=0&size=10&colleague=${filters.college}&status=${filters.status}&governorate=${filters.governorate}&grade=${filters.grade}&search=${filters.search}`,
+    return this.http.get<PaginatedStudentResponse>(`${this.baseUrl}api/admin/get-students-withFilter?page=${page}&&colleague=${filters.college}&status=${filters.status}&governorate=${filters.governorate}&grade=${filters.grade}&search=${filters.search}`,
       {headers:this.headers});
   }
 

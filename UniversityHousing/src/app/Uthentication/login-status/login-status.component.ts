@@ -24,6 +24,8 @@ export class LoginStatusComponent implements OnInit {
     this.authService.logout();
   }
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.authService.authStatus$.subscribe(status => {
+      this.isAuthenticated = status;
+    })
   }
 }

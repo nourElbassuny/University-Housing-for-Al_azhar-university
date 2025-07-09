@@ -26,6 +26,10 @@ public class MealService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found with ID: " + studentId));
 
+        if (!student.getStatus().equals("مقبول")){
+            return ResponseEntity.ok(Map.of("status", "❌ الطالب غير موجود "));
+        }
+
         LocalDate today = LocalDate.now();
         boolean isExistsMeal = mealsRepository.findByStudentIdAndMealDate(studentId, today).isPresent();
         if (isExistsMeal) {
