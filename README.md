@@ -26,7 +26,7 @@ A complete full-stack application with Angular frontend, Spring Boot backend, an
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/nourElbassuny/ATC_01126219388.git
+git clone https://github.com/nourElbassuny/University-Housing-for-Al_azhar-university.git
 ```
 ### 2.2. Backend Setup (Spring Boot)
 1. Open the backend project in IntelliJ IDEA.
@@ -58,15 +58,25 @@ go to this path --> Areeb-event-backend/src/main/resources/application.propertie
 
 ```properties
 
+spring.application.name=backend-university-housing
 server.port=8084
-spring.datasource.url=jdbc:mysql://localhost:3306/areeb15?createDatabaseIfNotExist=true
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3305/universityhousingTest?createDatabaseIfNotExist=true
+spring.datasource.username=springstudent
+spring.datasource.password=springstudent
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
 
 spring.servlet.multipart.max-file-size=5MB
 spring.servlet.multipart.max-request-size=5MB
+application.security.jwt.secret-key={{secret_key}}
+
+application.security.jwt.expiration=86400000
+
+application.security.jwt.refresh-token.expiration=604800000
+
+
 ```
 Make sure the database name, username, password and database port  match your MySQL setup.
 Make sure this port 8084 is available 
@@ -95,19 +105,8 @@ Backend: http://localhost:8084
 
 after that go to this link http://localhost:4200
 
-you will see main page there is no events because the database is an empty 
+you will see main page because the database is an empty 
 
-<img src="https://github.com/nourElbassuny/ATC_01126219388/blob/main/Images/main%20page.png">
-
-to add new events 
-click on Login button 
- email  : admin@example.com         
-
- password : admin123
- 
- go to this link for running app
- 
-  https://youtu.be/lRouTNjgqbc
 
 
 ADD More than four events with the same categorey to see Pagination feature
