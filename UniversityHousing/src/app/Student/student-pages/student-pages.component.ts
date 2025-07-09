@@ -6,6 +6,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {NgClass} from '@angular/common';
 import {StudentsService} from '../../Admin/services/studentService/students.service';
 import {AuthService} from '../../Uthentication/services/auth.service';
+import {Student} from '../../Classes/student/student';
 
 @Component({
   selector: 'app-student-pages',
@@ -27,13 +28,23 @@ export class StudentPagesComponent implements OnInit {
   isAuthenticated = false;
   userEmail: string="";
   isAdmin: boolean=false;
-  constructor(private authService: AuthService,) {
+  student!: Student;
+
+  constructor(private authService: AuthService,private studentService: StudentsService) {
   }
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.getUserEmail();
     this.isAdmin=this.authService.isAdmin();
+    this.getStudent();
+  }
+
+  getStudent() {
+    this.studentService.getStudent().subscribe(
+      res => this.student = res,
+      error => alert(error.message),
+    )
   }
   private getUserEmail(){
     this.userEmail=localStorage.getItem('email')!;

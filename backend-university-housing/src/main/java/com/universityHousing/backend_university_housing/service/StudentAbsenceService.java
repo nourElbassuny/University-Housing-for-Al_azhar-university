@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,14 @@ public class StudentAbsenceService {
         var currentUser= getCurrentUser();
         return ResponseEntity.ok(studentAbsenceRepository.findStudentAbsencesByStudentId(currentUser.getId()));
     }
+
+    public ResponseEntity<Map<String,Boolean>> getStudentAbsencesStatus(Integer studentId) {
+        boolean status= studentAbsenceRepository.getStudentAbsencesStatusByStudentId(studentId, LocalDate.now()).isPresent();
+        return ResponseEntity.ok(Map.of("status",status));
+    }
+
     private User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
 }

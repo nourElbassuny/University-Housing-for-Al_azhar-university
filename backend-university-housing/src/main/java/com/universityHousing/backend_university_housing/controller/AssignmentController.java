@@ -3,27 +3,31 @@ package com.universityHousing.backend_university_housing.controller;
 import com.universityHousing.backend_university_housing.dto.AssignmentDTO;
 import com.universityHousing.backend_university_housing.entity.Assignment;
 import com.universityHousing.backend_university_housing.service.AssignmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("api/assignments")
+@RequestMapping("api")
+@RequiredArgsConstructor
 public class AssignmentController {
     private final AssignmentService assignmentService;
-    @Autowired
-    public AssignmentController(AssignmentService assignmentService) {
-        this.assignmentService = assignmentService;
-    }
-    @GetMapping
+
+    @GetMapping("/admin/assignments")
     public List<AssignmentDTO> getAllAssignments() {
         return assignmentService.getAllAssignments();
     }
-    @PostMapping
-    public ResponseEntity<String> addAssignment(@RequestParam int studentId, @RequestParam int roomId) {
-        assignmentService.saveAssignment(studentId,roomId);
-        return ResponseEntity.ok("Student assigned to room!");
+    @GetMapping("/student/student-assignment")
+    public ResponseEntity<Map<String,Boolean>>getStudentAssignment() {
+        return assignmentService.getStudentAssignmentStatus();
+    }
+
+    @PostMapping("/student/booking-room")
+    public ResponseEntity<Map<String, String>> addAssignment(@RequestParam(name = "roomId") int roomId) {
+        return assignmentService.saveAssignment(roomId);
     }
 }

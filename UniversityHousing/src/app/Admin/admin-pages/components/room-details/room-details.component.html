@@ -1,15 +1,14 @@
 <div class="container mt-4" dir="rtl">
   <div class="text-center mb-5">
     <h2 class="fw-bold">
-    مبنى   {{ BuildingName }} - الغرفة رقم {{ roomName }}
+       {{ BuildingName }} - الغرفة رقم {{ roomName }}
     </h2>
   </div>
 
   <div class="container py-4">
     <div class="row g-4 justify-content-center mt-0">
       <div class="col-md-4" *ngFor="let student of studentList">
-        <div class="card shadow rounded-4 border-0 hover-card" routerLink="/studentDetails"
-             (click)="getStudentId(student.id)">
+        <div class="card shadow rounded-4 border-0 hover-card" routerLink="/admin/studentDetails/{{student.id}}">
           <!--        <img *ngIf="student.image" [src]="'data:image/jpeg;base64,' + student.image" class="card-img-top rounded-top-4" alt="صورة الطالب">-->
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">{{ student.arabicName }}</h5>

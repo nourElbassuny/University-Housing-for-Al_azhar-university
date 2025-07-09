@@ -1,0 +1,30 @@
+.page-header {
+  background: linear-gradient(90deg, #0d6efd 0%, #6610f2 100%);
+  color: white;
+  padding: 15px 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.page-header i {
+  margin-left: 10px;
+}
+.no-results {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.no-results i {
+  font-size: 5rem;
+  color: #dee2e6;
+  margin-bottom: 20px;
+}
+.pageable:hover{
+  cursor: pointer;
+}

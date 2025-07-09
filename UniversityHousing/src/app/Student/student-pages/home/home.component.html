@@ -2,8 +2,8 @@
   <img src="assets/images/ic1.jpg" style="width: 100%; height: 500px" alt="">
   <div class="banner-container ">
     <div class="banner-content">
-      <span class="banner-item">تم فتح باب التقديم للمدينة الجامعية</span>
-      <span class="banner-item">تم فتح باب التقديم للمدينة الجامعية</span>
+      @for (item of messages;track item) { <span class="banner-item">{{item.message}}</span>
+      }
     </div>
   </div>
   <div class="row mt-5 justified-text">

@@ -1,1 +1,163 @@
-<p>students-requests works!</p>
+<header class="page-header">
+  <h1>
+    <i class="fas fa-users"></i> تقديمات الطلاب للمدينة الجامعية
+  </h1>
+</header>
+<div class="card shadow-sm my-1">
+  <div class="card-body">
+    <form (ngSubmit)="applyFilter()" #filterFom="ngForm">
+      <div class="row g-3 justify-content-between align-items-end">
+
+        <!-- Filters Section (right side in RTL) -->
+        <div class="col-lg-10">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label for="searchInput" class="form-label">
+                <i class="fas fa-search"></i> بحث
+              </label>
+              <input type="search" id="searchInput" class="form-control bg-body-secondary"
+                     placeholder="ابحث بالاسم أو البريد" [(ngModel)]="filters.search" name="search">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">المحافظة</label>
+              <select class="form-select" id="governorateFilter" [(ngModel)]="filters.governorate" name="governorate">
+                <option value="">الكل</option>
+                @for (item of governorateList; track item.id) {
+                  <option value="{{item.name}}">{{item.name}}</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">الكلية</label>
+              <select class="form-select" id="collegeFilter" [(ngModel)]="filters.college" name="college">
+                <option value="">الكل</option>
+                @for (item of collegeList; track item.id) {
+                  <option value="{{item.name}}">{{item.name}}</option>
+                }
+
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">التقدير</label>
+              <select class="form-select" id="gradeFilter" [(ngModel)]="filters.grade" name="grade">
+                <option value="">الكل</option>
+                <option value="ممتاز">ممتاز</option>
+                <option value="جيد جدا">جيد جدا</option>
+                <option value="جيد">جيد</option>
+                <option value="مقبول">مقبول</option>
+                <option value="راسب">راسب</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">الحالة</label>
+              <select class="form-select" id="statusFilter" [(ngModel)]="filters.status" name="status">
+                <option value="">الكل</option>
+                <option value="مقبول">مقبول</option>
+                <option value="مرفوض">مرفوض</option>
+                <option value="قيد المراجعة">قيد المراجعة</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-2 ">
+          <button type="submit" id="applyFiltersBtn"  class="btn btn-outline-primary w-100">
+            <i class="fas fa-filter ms-2"></i> تطبيق الفلاتر والبحث
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card shadow-sm my-1">
+  @if (studentList.length == 0) {
+    <div class="card-body ">
+      <div class="no-results">
+        <i class="fas fa-user-slash"></i>
+        <h3>No students found</h3>
+        <p class="text-muted">Try adjusting your search or filter criteria</p>
+      </div>
+    </div>
+  } @else {
+
+    <div class="row m-2 ">
+      @for (item of studentList; track item.id) {
+        <div class="col-12 col-md-4 col-lg-3 my-2 " style="cursor: pointer"  routerLink="/admin/studentDetails/{{item.id}}">
+          <div class="card shadow-sm border-0 rounded-4 bg-body-secondary">
+            <div class="card-body">
+              <h5 class="card-title mb-3 text-primary">
+                <i class="fas fa-user me-2"></i>{{ item.arabicName }}
+              </h5>
+
+              <div class="mb-2">
+                <i class="fas fa-envelope-open-text text-secondary me-2"></i>
+                {{ item.email }}
+              </div>
+
+              <div class="mb-2">
+                <i class="fas fa-phone-alt text-secondary me-2"></i>
+                {{ item.phone }}
+              </div>
+
+              <div class="mb-2">
+                <i class="fas fa-university text-secondary me-2"></i>
+                كلية {{ item.colleague }}
+              </div>
+              <div class="mb-3">
+                <i class="fas fa-star text-secondary me-2"></i>
+                التقدير: {{ item.grade }}
+              </div>
+
+              <div class="mb-3">
+                <i class="fas fa-map-marker-alt text-secondary me-2"></i>
+                محافظة {{ item.governorate }}
+              </div>
+
+              <span class="badge  px-3 py-2 rounded-pill fs-6" [class.bg-success]="item.status == 'مقبول'" [class.bg-danger]="item.status == 'مرفوض'" [class.bg-warning]="item.status == 'قيد المراجعة'">
+            <i class="fas fa-check-circle me-1"></i> {{item.status}}
+          </span>
+            </div>
+          </div>
+        </div>
+
+      }
+    </div>
+  }
+  <nav *ngIf="totalPages > 1" class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <a class="page-link pageable" (click)="goToPage(currentPage - 1)">
+          <li class="fas fa-chevron-right"></li>
+        </a>
+      </li>
+
+      <li class="page-item" *ngIf="currentPage > 0">
+        <button class="page-link" (click)="goToPage(currentPage - 1)">
+          {{ currentPage }}
+        </button>
+      </li>
+      <li class="page-item active">
+        <span class="page-link">{{ currentPage + 1 }}</span>
+      </li>
+      <li class="page-item" *ngIf="currentPage + 1 < totalPages">
+        <button class="page-link" (click)="goToPage(currentPage + 1)">
+          {{ currentPage + 2 }}
+        </button>
+      </li>
+      <li class="page-item" *ngIf="currentPage + 2 < totalPages">
+        <button class="page-link" (click)="goToPage(currentPage + 2)">
+          {{ currentPage + 3 }}
+        </button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage >= totalPages - 1">
+        <a class="page-link pageable" (click)="goToPage(currentPage + 1)">
+          <li class="fas fa-chevron-left"></li>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+

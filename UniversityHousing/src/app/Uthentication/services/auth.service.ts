@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 })
 export class AuthService {
   private BASE_URL: string = environment.baseUrl;
-  headers = new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
+  private headers=new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`})
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   authStatus$ = this.authStatus.asObservable();
 

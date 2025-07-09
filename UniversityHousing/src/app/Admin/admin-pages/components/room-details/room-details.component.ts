@@ -20,13 +20,14 @@ export class RoomDetailsComponent implements OnInit {
   studentList: Student[] = [];
   BuildingName:string='';
   roomId:number=0;
-  roomName:string='';
-  storage:Storage=sessionStorage;
+  roomName:number=0;
   constructor(private roomDetailsService: RoomDetailsService, private shareData: ShareDataService,private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.roomId=Number(this.route.snapshot.params['id']);
+    this.roomName=(this.route.snapshot.params['roomNumber']);
+    this.BuildingName=String(this.route.snapshot.params['buildingName']);
     this.getStudentByRoomId(this.roomId);
     console.log(this.studentList)
   }
@@ -39,7 +40,5 @@ export class RoomDetailsComponent implements OnInit {
     )
   }
 
-  getStudentId(id: number | any) {
-    this.shareData.setStudentId(id);
-  }
+
 }

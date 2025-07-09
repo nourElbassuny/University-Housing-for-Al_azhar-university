@@ -13,12 +13,14 @@
       <li [ngClass]="{'active': activeItem === 'employees'}" (click)="setActive('employees')" routerLinkActive="active" routerLink="/admin/employees"><i class="fas fa-users"></i> العاملين</li>
       <li [ngClass]="{'active': activeItem === 'rooms'}" (click)="setActive('rooms')" routerLinkActive="active" routerLink="/admin/rooms"> <i class="fa-solid fa-building-user"></i> الغرف</li>
       <li [ngClass]="{'active': activeItem ==='studentRequest'}" (click)="setActive('studentRequest')" routerLinkActive="active" routerLink="/admin/studentRequest"><i class="fas fa-book"></i> طلبات التقديم</li>
+      <li [ngClass]="{'active': activeItem ==='food'}" (click)="setActive('food')" routerLinkActive="active" routerLink="/admin/food"><i class="fa-solid fa-utensils"></i> الاطعام</li>
       <li><i class="fa-solid fa-bullhorn"></i> الاعلانات</li>
       <li><i class="fa-solid fa-dumbbell"></i> النشاط الرياضى</li>
       <li><i class="fa-solid fa-user-doctor"></i> الرعاية الصحية </li>
       <li><i class="fa-solid fa-message"></i> المحادثات</li>
       <li><i class="fas fa-file"></i> التقارير</li>
-      <li><i class="fas fa-cog"></i> الاعدادات</li>
+      <li [ngClass]="{'active': activeItem === 'setting'}" (click)="setActive('setting')" routerLinkActive="active" routerLink="/admin/settings"><i class="fas fa-cog"></i> الاعدادات</li>
+
       <li *ngIf="isAuthenticated" (click)="logout()" routerLink="/login" ><i class="fa-solid fa-right-from-bracket"></i>تسجيل الخروج</li>
     </ul>
   </div>

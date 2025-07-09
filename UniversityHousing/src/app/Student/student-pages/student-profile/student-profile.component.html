@@ -1,6 +1,15 @@
+
 <div class="container my-5">
   <div class="row justify-content-center">
-    <div class="col-12 card" style="background: #dee2e6">
+    <div class="col-12 card position-relative" style="background: #dee2e6" id="card">
+
+      <div class="qrcode-wrapper" #barcode>
+        <qrcode [qrdata]="studentId.toString()" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+        <button class="btn btn-sm btn-primary btn-download w-100 mt-2" (click)="downloadBarcode()">
+          اضغط هنا للاحتفاظ بالباركود
+        </button>
+      </div>
+
       <div class="text-center mb-4">
         <div class="card-img">
           <img [src]="student.image" class="profile-image">
@@ -10,7 +19,7 @@
         <div class="mt-3">
           <span class="badge fs-5 px-3 py-2"
                 [ngClass]="{
-                  'bg-warning text-dark': student.status === 'UNDER_REVIEW',
+                  'bg-warning text-dark': student.status === 'قيد المراجعة',
                   'bg-success text-white': student.status === 'مقبول',
                   'bg-danger text-white': student.status === 'مرفوض'
                 }">

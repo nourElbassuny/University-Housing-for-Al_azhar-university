@@ -1,0 +1,71 @@
+<div class="container py-4 ">
+  <h2 class="mb-4 border-bottom pb-2 text-start">إعدادات النظام</h2>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white text-start">
+      <h5 class="mb-0"><i class="fas fa-user-lock ms-2"></i> إعدادات التسجيل</h5>
+    </div>
+    <div class="card-body text-end">
+      <div class="d-flex justify-content-between align-items-center">
+
+        <label class="fw-bold" for="registrationToggle">
+          {{ isRegistrationEnabled ? 'التسجيل مفعل' : 'التسجيل مغلق' }}
+        </label>
+
+
+        <div class="form-check form-switch m-0">
+          <input class="form-check-input" type="checkbox" id="registrationToggle" [(ngModel)]="isRegistrationEnabled"
+          (change)="onToggleChange()">
+        </div>
+      </div>
+
+      <p class="text-muted mt-2 text-start">
+        <i class="fas fa-info-circle ms-1"></i>
+        عند إيقاف التسجيل، لا يمكن للمستخدمين الجدد إنشاء حسابات
+      </p>
+    </div>
+  </div>
+
+
+
+  <!-- إضافة رسالة -->
+  <div class="card mb-4 shadow-sm ">
+    <div class="card-header bg-info text-white text-start">
+      <h5 class="mb-0"><i class="fas fa-envelope ms-2"></i> الرسائل للمستخدمين</h5>
+    </div>
+    <div class="card-body text-end">
+      <div class="mb-3">
+        <textarea class="form-control" id="messageInput" rows="3"
+                  [(ngModel)]="newMessage" placeholder="أدخل رسالة تظهر للمستخدمين"></textarea>
+      </div>
+      <button class="btn btn-success " (click)="addMessage()">
+        <i class="fas fa-plus-circle ms-1"></i> إضافة الرسالة
+      </button>
+    </div>
+  </div>
+
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white text-start">
+      <h5 class="mb-0"><i class="fas fa-list ms-2"></i> الرسائل الحالية</h5>
+    </div>
+    <div class="card-body text-start">
+      <div *ngIf="messages.length ==0" class="alert alert-info">
+        لا توجد رسائل بعد
+      </div>
+
+      <ul class="list-group" *ngIf="messages.length >0">
+        <li *ngFor="let message of messages; let i = index"
+            class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="text-start flex-grow-1 pe-2">
+            <span class="badge bg-primary ms-2">{{ i + 1 }}</span>
+            {{ message.message }}
+          </div>
+          <button class="btn btn-sm btn-danger ms-2" (click)="removeMessage(message.id!)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

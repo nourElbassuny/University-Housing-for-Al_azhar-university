@@ -5,3 +5,17 @@
   border-radius: 50%;
   margin: 20px auto 10px;
 }
+
+.qrcode-wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.btn-download {
+  margin-top: 10px;
+}
+

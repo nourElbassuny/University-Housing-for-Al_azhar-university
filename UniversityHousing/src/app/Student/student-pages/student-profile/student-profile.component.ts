@@ -2,12 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {StudentsService} from '../../../Admin/services/studentService/students.service';
 import {Student} from '../../../Classes/student/student';
 import {DatePipe, NgClass} from '@angular/common';
+import {QRCodeComponent} from 'angularx-qrcode';
+
 
 @Component({
   selector: 'app-student-profile',
   imports: [
     DatePipe,
-    NgClass
+    NgClass,
+    QRCodeComponent,
+
   ],
   templateUrl: './student-profile.component.html',
   standalone: true,
@@ -16,6 +20,7 @@ import {DatePipe, NgClass} from '@angular/common';
 export class StudentProfileComponent implements OnInit {
 
   student!: Student;
+  studentId: number=80;
 
   constructor(private studentService: StudentsService) {
   }
@@ -55,4 +60,11 @@ export class StudentProfileComponent implements OnInit {
     }
   }
 
+  downloadQrCode() {
+
+  }
+
+  downloadBarcode() {
+
+  }
 }

@@ -40,4 +40,7 @@ public class RoomService {
         return roomRepo.findRoomsByBuildingId(buildingId);
     }
 
+    public List<RoomDto> getAllNonFullRooms() {
+        return roomRepo.getAllNonFullRooms();
+    }
 }

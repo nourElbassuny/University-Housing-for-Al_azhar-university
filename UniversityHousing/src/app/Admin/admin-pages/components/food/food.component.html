@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="container mt-5">
+
+  <!-- عنوان -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary">
+      🍽️ نظام تسجيل الوجبات عبر QR
+    </h2>
+    <p class="text-muted">يمكنك مسح باركود الطالب وتسجيل الوجبة اليومية.</p>
+  </div>
+
+  <!-- زر تشغيل الكاميرا -->
+  <div class="text-center mb-4">
+    <button class="btn btn-outline-primary btn-lg px-4" (click)="toggleScanner()">
+      <i class="fas me-2" [ngClass]="showScanner ? 'fa-times' : 'fa-qrcode'"></i>
+      {{ showScanner ? '✖️ إغلاق الكاميرا' : '📷 بدء المسح' }}
+    </button>
+  </div>
+
+  <!-- الكاميرا -->
+  <div *ngIf="showScanner" class="d-flex justify-content-center mb-4">
+    <div class="border rounded-3 shadow-sm p-2 bg-light">
+      <zxing-scanner
+        [device]="selectedDevice"
+        (scanSuccess)="handleScan($event)"
+        [autostart]="true"
+        class="scanner-box"
+        style="width: 100%; max-width: 500px; height: auto;">
+      </zxing-scanner>
+    </div>
+  </div>
+
+  <!-- حالة التسجيل -->
+  <div *ngIf="isSubmitting" class="text-center mb-3">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">جاري تسجيل الوجبة...</p>
+  </div>
+
+  <div *ngIf="message" class="alert mt-3 text-center" [ngClass]="{'alert-success': success, 'alert-danger': !success}">
+    {{ message }}
+  </div>
+
+  <hr class="my-4">
+
+
+  <div class="row justify-content-center g-4">
+
+
+    <div class="col-md-4">
+      <div class="card border-primary shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary"><i class="fas fa-calendar-day me-2"></i>عدد الوجبات</h5>
+          <input type="date" class="form-control mb-3 text-center" [(ngModel)]="selectedDate" (change)="fetchScansByDate()" />
+          <h3 class="text-primary fw-bold mt-2">{{ totalScans }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- عدد الطلاب الكلي -->
+    <div class="col-md-4">
+      <div class="card border-success shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title text-success"><i class="fas fa-users me-2"></i>عدد الطلاب الكلي</h5>
+          <h3 class="text-success fw-bold mt-3">{{ totalStudents }}</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

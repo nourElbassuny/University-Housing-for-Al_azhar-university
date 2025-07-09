@@ -1,52 +1,116 @@
-
-<div class="container my-5" dir="rtl">
+<div class="container my-5">
   <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
     <div class="row g-0">
 
-      <!-- Image + QR Column -->
       <div class="col-md-4 bg-light text-center d-flex flex-column justify-content-center align-items-center p-4">
-        <img *ngIf="student.image" [src]="'data:image/jpeg;base64,' + student.image"
-             class="img-fluid rounded-3 border mb-3 shadow-sm" alt="صورة الطالب" style="max-height: 280px; object-fit: cover;">
+        <img *ngIf="student.image" [src]="student.image"
+             class="img-fluid rounded-3 border mb-3 shadow-sm" alt="صورة الطالب"
+             style="max-height: 280px; object-fit: cover;">
 
-        <qrcode [qrdata]="studentId.toString()" [width]="180" [errorCorrectionLevel]="'M'" class="qrcode-hover" ></qrcode>
+        @if (student.status === 'مقبول') {
+          <qrcode [qrdata]="studentId.toString()" [width]="200" [errorCorrectionLevel]="'M'"
+                  class="qrcode-hover shadow-sm"></qrcode>
+        }
 
-        <h4 class="mt-3 fw-bold text-primary">{{ student.arabicName }}</h4>
-        <span class="badge bg-secondary fs-6 px-3 py-2 mt-2">{{ student.status }}</span>
+        <span class="badge bg-secondary fs-6 px-4 py-2 mt-2 rounded-pill">{{ student.status }}</span>
       </div>
 
-      <!-- Details Column -->
       <div class="col-md-8 p-4">
-        <h5 class="fw-bold text-dark mb-4">
-          <i class="fas fa-info-circle me-2 text-primary"></i>معلومات الطالب
+        <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom d-flex justify-content-between align-items-center">
+  <span>
+    <i class="fas fa-user me-2 text-primary"></i> {{ student.arabicName }}
+  </span>
+          @if (student.status=='مقبول'){
+            @if (isAbsent){
+              <span class="text-danger">غائب</span>
+            } @else {
+              <span class="text-info">مقيم</span>
+            }
+          }
+
+
         </h5>
 
         <div class="row gy-3">
-          <div class="col-md-6"><i class="fas fa-envelope me-2 text-primary"></i><strong>البريد الإلكتروني:</strong> {{ student.englishName }}</div>
-          <div class="col-md-6"><i class="fas fa-phone me-2 text-success"></i><strong>رقم الهاتف:</strong> {{ student.phone }}</div>
+          <div class="col-12 mb-3">
+            <h6 class="fw-bold text-muted mb-2">معلومات الاتصال</h6>
+            <div class="row gx-3 gy-2">
+              <div class="col-md-6"><i class="fas fa-envelope me-2 text-primary"></i><strong>البريد
+                الإلكتروني:</strong> {{ student.email }}
+              </div>
+              <div class="col-md-6"><i class="fas fa-phone me-2 text-success"></i><strong>رقم
+                الهاتف:</strong> {{ student.phone }}
+              </div>
+            </div>
+          </div>
 
-          <div class="col-md-6"><i class="fas fa-venus-mars me-2 text-danger"></i><strong>الجنس:</strong> {{ student.gender }}</div>
-          <div class="col-md-6"><i class="fas fa-calendar-alt me-2 text-info"></i><strong>تاريخ الميلاد:</strong> {{ student.birthday | date:'yyyy-MM-dd' }}</div>
+          <div class="col-12 mb-3">
+            <h6 class="fw-bold text-muted mb-2">المعلومات الشخصية</h6>
+            <div class="row gx-3 gy-2">
+              <div class="col-md-6"><i
+                class="fas fa-venus-mars me-2 text-danger"></i><strong>الجنس:</strong> {{ student.gender }}
+              </div>
+              <div class="col-md-6"><i class="fas fa-calendar-alt me-2 text-info"></i><strong>تاريخ
+                الميلاد:</strong> {{ student.birthday | date:'yyyy-MM-dd' }}
+              </div>
+              <div class="col-md-6"><i class="fas fa-id-card me-2 text-dark"></i><strong>الرقم
+                القومي:</strong> {{ student.nationalId }}
+              </div>
+            </div>
+          </div>
 
-          <div class="col-md-6"><i class="fas fa-map-marker-alt me-2 text-danger"></i><strong>المدينة:</strong> {{ student.status }}</div>
-          <div class="col-md-6"><i class="fas fa-home me-2 text-secondary"></i><strong>العنوان:</strong> {{ student.address }}</div>
+          <div class="col-12 mb-3">
+            <h6 class="fw-bold text-muted mb-2">معلومات العنوان</h6>
+            <div class="row gx-3 gy-2">
+              <div class="col-md-6"><i
+                class="fas fa-map-marker-alt me-2 text-danger"></i><strong>المدينة:</strong> {{ student.state || student.status }}
+              </div>
+              <div class="col-md-6"><i
+                class="fas fa-flag me-2 text-primary"></i><strong>المحافظة:</strong> {{ student.governorate }}
+              </div>
+              <div class="col-md-12"><i
+                class="fas fa-home me-2 text-secondary"></i><strong>العنوان:</strong> {{ student.address }}
+              </div>
+            </div>
+          </div>
 
-          <div class="col-md-6"><i class="fas fa-university me-2 text-warning"></i><strong>الكلية:</strong> {{ student.colleague }}</div>
-          <div class="col-md-6"><i class="fas fa-building me-2 text-info"></i><strong>القسم:</strong> {{ student.department }}</div>
-
-          <div class="col-md-6"><i class="fas fa-graduation-cap me-2 text-success"></i><strong>المرحلة:</strong> {{ student.stage }}</div>
-          <div class="col-md-6"><i class="fas fa-chart-line me-2 text-primary"></i><strong>المعدل:</strong> {{ student.grade }}</div>
-
-          <div class="col-md-6"><i class="fas fa-flag me-2 text-danger"></i><strong>المحافظة:</strong> {{ student.governorate }}</div>
-          <div class="col-md-6"><i class="fas fa-id-card me-2 text-dark"></i><strong>الرقم القومي:</strong> {{ student.nationalId }}</div>
+          <div class="col-12 mb-3">
+            <h6 class="fw-bold text-muted mb-2">المعلومات التعليمية</h6>
+            <div class="row gx-3 gy-2">
+              <div class="col-md-6"><i
+                class="fas fa-university me-2 text-warning"></i><strong>الكلية:</strong> {{ student.colleague }}
+              </div>
+              <div class="col-md-6"><i
+                class="fas fa-building me-2 text-info"></i><strong>القسم:</strong> {{ student.department }}
+              </div>
+              <div class="col-md-6"><i
+                class="fas fa-graduation-cap me-2 text-success"></i><strong>المرحلة:</strong> {{ student.stage }}
+              </div>
+              <div class="col-md-6"><i
+                class="fas fa-chart-line me-2 text-primary"></i><strong>المعدل:</strong> {{ student.grade }}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="text-end mt-4">
-          <button class="btn btn-outline-danger px-4 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#pdfModal">
-            <i class="fas fa-file-pdf me-2"></i>عرض ملف الطالب PDF
+        <div class="text-end mt-5 d-flex justify-content-end align-items-center flex-wrap gap-3">
+          @if (student.status == 'قيد المراجعة') {
+            <button class="btn btn-success px-4 py-2 shadow-sm rounded-pill" (click)="changeStudentStatus('مقبول')">
+              <i class="fas fa-check-circle me-2"></i> قبول الطالب
+            </button>
+
+            <button class="btn btn-danger px-4 py-2 shadow-sm rounded-pill" (click)="changeStudentStatus('مرفوض')">
+              <i class="fas fa-times-circle me-2"></i> رفض الطالب
+            </button>
+          }
+          <button class="btn btn-info px-4 py-2 shadow-sm rounded-pill"
+                  (click)="preparePdf()"
+                  data-bs-toggle="modal"
+                  data-bs-target="#pdfModal">
+            <i class="fas fa-file-pdf me-2"></i> عرض ملف الطالب PDF
           </button>
         </div>
 
-        <!-- 📄 PDF Modal -->
         <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content rounded-4">
@@ -57,16 +121,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
               </div>
               <div class="modal-body p-0">
-                <iframe #pdfIframe width="100%" height="600px" style="border: none;"></iframe>
+                <iframe *ngIf="pdfBlobUrl" [src]="pdfBlobUrl" width="100%" height="600px"
+                        style="border: none;"></iframe>
               </div>
               <div class="modal-footer bg-light border-top-0">
-                <button type="button" class="btn btn-outline-primary" (click)="viewStudentPDF()">فتح الملف في صفحة منفردة</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4" (click)="viewStudentPDF()">فتح
+                  الملف في صفحة منفردة
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-      </div> <!-- /Details Column -->
+      </div>
     </div>
   </div>
 </div>

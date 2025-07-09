@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Governorate} from '../../../Classes/governorate/governorate';
 import {State} from '../../../Classes/states/state';
@@ -11,10 +11,22 @@ import {Department} from '../../../Classes/department/department';
   providedIn: 'root'
 })
 export class CommonDataService {
-  private baseUrl: string = `${environment.baseUrl}`;
+  private baseUrl: string = environment.baseUrl;
+  private header= new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
+  private registrationStatusSubject=new BehaviorSubject<boolean>(false);
+  registrationStatus$=this.registrationStatusSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+
+
+  constructor(private http: HttpClient) {}
+
+  setRegistrationStatus(status:boolean):Observable<{Status:string}> {
+      return this.http.get<{Status:string}>(`${this.baseUrl}api/admin/change-status?status=${status}`,{headers:this.header});
   }
+  getRegistrationStatus():Observable<{Status:boolean}> {
+    return this.http.get<{Status:boolean}>(`${this.baseUrl}api/auth/get-status`,{headers:this.header})
+  }
+
 
   getAllColleague():Observable<Colleague[]>{
     return this.http.get<Colleague[]>(`${this.baseUrl}api/auth/colleague`);

@@ -32,9 +32,11 @@ export class RoomsListComponent implements OnInit {
   private getAllRooms() {
     this.roomService.getAllRooms().subscribe(
       res => this.rooms = res,
-      error => alert(error.message())
+      error => alert(error.message)
     )
   }
+
+
 
   passingRoom(item: Room) {
     this.shareDataService.setRoomData(item.buildingName,item.roomNumber,item.id)

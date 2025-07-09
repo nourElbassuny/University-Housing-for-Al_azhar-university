@@ -5,6 +5,7 @@ import com.universityHousing.backend_university_housing.dao.studentRepository.St
 import com.universityHousing.backend_university_housing.entity.Student;
 import com.universityHousing.backend_university_housing.entity.StudentFile;
 import com.universityHousing.backend_university_housing.exception.ApiRequestException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class StudentFileService {
-    private StudentRepo studentRepo;
+    private final StudentRepo studentRepo;
 
-    @Autowired
-    public StudentFileService(StudentRepo studentRepo) {
-        this.studentRepo = studentRepo;
-    }
 
     @Transactional
     public void saveFile(int studentId, MultipartFile file) throws IOException {
@@ -34,6 +32,7 @@ public class StudentFileService {
         studentFile.setStudent(student);
         studentRepo.save(student);
     }
+
 
     public ResponseEntity<byte[]> getFile(int id){
         Student student=studentRepo.findStudentById(id).orElseThrow(()->new RuntimeException("Student not found"));

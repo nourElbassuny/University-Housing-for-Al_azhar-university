@@ -25,6 +25,11 @@ public class StudentAbsenceController {
         return studentAbsenceService.getStudentAbsences();
     }
 
+    @GetMapping("/admin/get-student-active")
+    public ResponseEntity<Map<String,Boolean>>getStudentActive(@RequestParam("studentId") Integer studentId){
+        return studentAbsenceService.getStudentAbsencesStatus(studentId);
+    }
+
     @PostMapping("student/save/studentAbsence")
     public ResponseEntity<Map<String,String>>saveStudentAbsence(@RequestBody StudentAbsences studentAbsences){
         return studentAbsenceService.saveStudentAbsence(studentAbsences);

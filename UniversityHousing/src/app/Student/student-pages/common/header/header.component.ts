@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {NgClass} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {AuthService} from '../../../../Uthentication/services/auth.service';
 import {RouterLink} from '@angular/router';
 
@@ -7,7 +7,9 @@ import {RouterLink} from '@angular/router';
   selector: 'app-header',
   imports: [
     NgClass,
-    RouterLink
+    RouterLink,
+    NgIf,
+    NgForOf
   ],
   templateUrl: './header.component.html',
   standalone: true,
@@ -17,7 +19,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   dropdownOpen = false;
   firstCharacter: string="";
-
+  showNotifications = false;
   constructor(private authService: AuthService) {
   }
 
@@ -35,7 +37,15 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  notifications: any[] = [
+    { id: 1, message: 'New user registered', importance: 'low', timestamp: '2025-07-06 15:30' },
+    { id: 2, message: 'System update required', importance: 'medium', timestamp: '2025-07-06 14:20' },
+    { id: 3, message: 'Security alert: Unauthorized access attempt', importance: 'low', timestamp: '2025-07-06 13:15' }
+  ];
 
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
 
   toggleDropdown(event: Event) {
     event.preventDefault(); // stop default anchor behavior

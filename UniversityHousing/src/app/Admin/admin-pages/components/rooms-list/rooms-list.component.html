@@ -1,10 +1,10 @@
 <div class="container mt-4" dir="rtl">
   <div class="row">
     <div class="col-md-2" *ngFor="let item of rooms">
-      <div class="card mb-4 shadow-sm hover-card" routerLink="/roomDetails/{{item.id}}" (click)="passingRoom(item)">
+      <div class="card mb-4 shadow-sm hover-card" [routerLink]="['/admin/roomDetails',item.id,item.roomNumber,item.buildingName]" (click)="passingRoom(item)">
         <div class="card-body text-end">
           <h5 class="card-title text-primary d-flex justify-content-between">الغرفة {{ item.roomNumber }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">مبنى {{ item.buildingName }} </h6>
+          <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between"> {{ item.buildingName }} </h6>
 
           <ul class="list-group list-group-flush my-3">
             <li class="list-group-item d-flex justify-content-between">

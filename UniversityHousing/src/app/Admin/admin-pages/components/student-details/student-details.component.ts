@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit,AfterViewInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, AfterViewInit, ViewChild} from '@angular/core';
 import {ShareDataService} from '../../../services/shareDataService/share-data.service';
 import {StudentsService} from '../../../services/studentService/students.service';
 
@@ -7,6 +7,8 @@ import {QRCodeComponent} from 'angularx-qrcode';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {ActivatedRoute} from '@angular/router';
 import {Student} from '../../../../Classes/student/student';
+import {HttpClient} from '@angular/common/http';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 
 @Component({
@@ -23,39 +25,64 @@ import {Student} from '../../../../Classes/student/student';
   styleUrl: './student-details.component.css'
 })
 export class StudentDetailsComponent implements OnInit {
-  loading=true;
+  loading = true;
   studentId: number = 0;
   student: Student = new Student();
+  isAbsent!: boolean;
+  pdfBlobUrl: SafeResourceUrl | null = null;
   @ViewChild('pdfIframe') pdf!: ElementRef;
 
-  constructor(private sharedData: ShareDataService,
-              private studentService: StudentsService,
-              private route: ActivatedRoute) {
+  constructor(
+    private studentService: StudentsService,
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+  ) {
   }
-  ngAfterViewInit() {
-    const modalElement = document.getElementById('pdfModal');
-    if (modalElement) {
-      modalElement.addEventListener('shown.bs.modal', () => {
-        const id = JSON.parse(localStorage.getItem('student_id')!);
-        this.studentId = +id;
-        const pdfUrl = `http://localhost:8084/api/studentFile/${this.studentId}`;
-        this.pdf.nativeElement.src = pdfUrl;
-      });
-    }
+
+  getStudentActive() {
+    this.studentService.getStudentActive(this.studentId).subscribe(
+      res => {
+        this.isAbsent = res.status
+      },
+      error => {
+        alert(error.message);
+      }
+    )
   }
+
+  preparePdf() {
+    const url = `http://localhost:8084/api/auth/studentFile/${this.studentId}`;
+    this.http.get(url, {responseType: 'blob'}).subscribe(blob => {
+      const fileURL = URL.createObjectURL(blob);
+      this.pdfBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+    });
+  }
+
   ngOnInit(): void {
     this.getStudentId();
     this.getStudentById(this.studentId);
-    this
+    this.getStudentActive();
+
   }
 
   getStudentById(id: number): void {
+    this.studentService.getStudentImageById(id).subscribe(
+      res => {
+        this.student.image = 'data:image/jpeg;base64,' + res.image;
+        this.loading = false;
+      }
+      , error => alert(error.message),
+    );
+
     this.studentService.getStudentById(id).subscribe(
       data => {
         this.student = data;
+      }, error => {
+        alert(error.message)
       }
-    )
-    this.loading=false;
+    );
+
   }
 
   getStudentImage(id: number): void {
@@ -69,14 +96,12 @@ export class StudentDetailsComponent implements OnInit {
   }
 
   getStudentId() {
-   this.studentId=Number(this.route.snapshot.params['id']);
+    this.studentId = Number(this.route.snapshot.params['id']);
   }
 
   viewStudentPDF() {
-    const id = JSON.parse(localStorage.getItem('student_id')!);
-    this.studentId = +id;
 
-    const url = `http://localhost:8084/api/studentFile/${this.studentId}`;
+    const url = `http://localhost:8084/api/auth/studentFile/${this.studentId}`;
 
     // Method 1: Directly open in new tab (if no auth needed)
     window.open(url, '_blank');
@@ -91,16 +116,16 @@ export class StudentDetailsComponent implements OnInit {
     */
   }
 
-  scannedIds: Set<string> = new Set(); // Prevent repeated alerts
 
-  onCodeResult(result: string) {
-    if (!this.scannedIds.has(result)) {
-      this.scannedIds.add(result);
-      alert('Student ID: ' + result);
-    }
+
+
+  changeStudentStatus(status: string) {
+
+    this.studentService.changeStudentStatus(this.studentId, status).subscribe(
+      res => console.log(res.status),
+      error => alert(error.message)
+    )
   }
 
-  goBack() {
 
-  }
 }

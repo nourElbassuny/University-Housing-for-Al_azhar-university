@@ -11,11 +11,68 @@
     <i class="fas fa-users"></i> طلاب المدينة الجامعية
   </h1>
 </header>
+<div class="card shadow-sm my-1">
+  <div class="card-body">
+    <form (ngSubmit)="applyFilter()" #filterFom="ngForm">
+      <div class="row g-3 justify-content-between align-items-end">
+
+        <!-- Filters Section (right side in RTL) -->
+        <div class="col-lg-10">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label for="searchInput" class="form-label">
+                <i class="fas fa-search"></i> بحث
+              </label>
+              <input type="search" id="searchInput" class="form-control bg-body-secondary"
+                     placeholder="ابحث بالاسم أو البريد" [(ngModel)]="filters.search" name="search">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">المحافظة</label>
+              <select class="form-select" id="governorateFilter" [(ngModel)]="filters.governorate" name="governorate">
+                <option value="">الكل</option>
+                @for (item of governorateList; track item.id) {
+                  <option value="{{item.name}}">{{item.name}}</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">الكلية</label>
+              <select class="form-select" id="collegeFilter" [(ngModel)]="filters.college" name="college">
+                <option value="">الكل</option>
+                @for (item of collegeList; track item.id) {
+                  <option value="{{item.name}}">{{item.name}}</option>
+                }
+
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">التقدير</label>
+              <select class="form-select" id="gradeFilter" [(ngModel)]="filters.grade" name="grade">
+                <option value="">الكل</option>
+                <option value="ممتاز">ممتاز</option>
+                <option value="جيد جدا">جيد جدا</option>
+                <option value="جيد">جيد</option>
+                <option value="مقبول">مقبول</option>
+                <option value="راسب">راسب</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 ">
+          <button type="submit" id="applyFiltersBtn"  class="btn btn-outline-primary w-100">
+            <i class="fas fa-filter ms-2"></i>  البحث
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="container py-4">
   <div class="row g-4 justify-content-center mt-0">
-    <div class="col-md-4" *ngFor="let student of studentList">
-      <div class="card shadow rounded-4 border-0 hover-card" routerLink="/studentDetails/{{student.id}}">
+    <div class="col-md-3" *ngFor="let student of studentList">
+      <div class="card shadow rounded-4 border-0 hover-card" routerLink="/admin/studentDetails/{{student.id}}">
         <!--        <img *ngIf="student.image" [src]="'data:image/jpeg;base64,' + student.image" class="card-img-top rounded-top-4" alt="صورة الطالب">-->
         <div class="card-body text-center">
           <h5 class="card-title fw-bold">{{ student.arabicName }}</h5>
@@ -27,7 +84,7 @@
 
           <p class="card-text mb-1">
             <i class="fas fa-envelope me-2 text-danger"></i>
-            {{ student.englishName }}
+            {{ student.email }}
           </p>
 
           <p class="card-text mb-1">
@@ -57,6 +114,40 @@
 <div *ngIf="studentList.length===0" class="spinner-container">
   <div class="spinner"></div>
 </div>
+<nav *ngIf="totalPages > 1" class="d-flex justify-content-center mt-4">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="currentPage === 0">
+      <a class="page-link pageable" (click)="goToPage(currentPage - 1)">
+        <li class="fas fa-chevron-right"></li>
+      </a>
+    </li>
+
+    <li class="page-item" *ngIf="currentPage > 0">
+      <button class="page-link" (click)="goToPage(currentPage - 1)">
+        {{ currentPage }}
+      </button>
+    </li>
+    <li class="page-item active">
+      <span class="page-link">{{ currentPage + 1 }}</span>
+    </li>
+    <li class="page-item" *ngIf="currentPage + 1 < totalPages">
+      <button class="page-link" (click)="goToPage(currentPage + 1)">
+        {{ currentPage + 2 }}
+      </button>
+    </li>
+    <li class="page-item" *ngIf="currentPage + 2 < totalPages">
+      <button class="page-link" (click)="goToPage(currentPage + 2)">
+        {{ currentPage + 3 }}
+      </button>
+    </li>
+
+    <li class="page-item" [class.disabled]="currentPage >= totalPages - 1">
+      <a class="page-link pageable" (click)="goToPage(currentPage + 1)">
+        <li class="fas fa-chevron-left"></li>
+      </a>
+    </li>
+  </ul>
+</nav>
 </body>
 </html>
 

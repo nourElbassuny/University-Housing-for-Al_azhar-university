@@ -6,6 +6,7 @@ import com.universityHousing.backend_university_housing.dto.StudentDTO;
 import com.universityHousing.backend_university_housing.entity.Student;
 import com.universityHousing.backend_university_housing.entity.StudentFile;
 import com.universityHousing.backend_university_housing.entity.User;
+import com.universityHousing.backend_university_housing.request.StudentFilterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,9 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +37,27 @@ public class StudentService {
         return studentRepo.findAllStudent(pageable);
     }
 
+    public ResponseEntity<StudentDTO>getStudentByID(int id) {
+        var student=studentRepo.findStudent(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return ResponseEntity.ok(student);
+    }
+    public Page<StudentDTO> getStudentWithFilter(int page, int size, @ModelAttribute StudentFilterRequest filter) {
+        Pageable pageable = PageRequest.of(page, size);
+        return studentRepo.findStudentWithFilter(
+                emptyToNull(filter.getColleague()),
+                emptyToNull(filter.getGovernorate()),
+                emptyToNull(filter.getGrade()),
+                emptyToNull(filter.getStatus()),
+                emptyToNull(filter.getSearch()),
+                pageable
+        );
+
+    }
+
+    public ResponseEntity<Map<String,Integer>>countPresentStudents(LocalDate date){
+        Integer total= studentRepo.countPresentStudents(date);
+        return ResponseEntity.ok(Map.of("count", total));
+    }
 
 
     public ResponseEntity<List<StudentDTO>> findStudentByRoomId(int roomId) {
@@ -47,11 +72,25 @@ public class StudentService {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
-    public ResponseEntity<Map<String,String>>getStudentImage(){
+    public ResponseEntity<Map<String, String>> getStudentImage() {
         var userId = getCurrentUser().getId();
-        var studentImage=studentRepo.findStudentImageById(userId).orElseThrow(() -> new RuntimeException("this student is not found"));
-        String base64Image= Base64.getEncoder().encodeToString(studentImage);
+        var studentImage = studentRepo.findStudentImageById(userId).orElseThrow(() -> new RuntimeException("this student is not found"));
+        String base64Image = Base64.getEncoder().encodeToString(studentImage);
         return ResponseEntity.ok(Map.of("image", base64Image));
+    }
+
+    public ResponseEntity<Map<String, String>> getStudentImage(Integer studentId) {
+        var studentImage = studentRepo.findStudentImageById(studentId).orElseThrow(() -> new RuntimeException("this student is not found"));
+        String base64Image = Base64.getEncoder().encodeToString(studentImage);
+        return ResponseEntity.ok(Map.of("image", base64Image));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String,String>>changeStudentStatus(int studentId, String status) {
+        var student=studentRepo.findStudentById(studentId).orElseThrow(() -> new RuntimeException("this student is not found"));
+        student.setStatus(status);
+        studentRepo.save(student);
+        return  ResponseEntity.ok(Map.of("status", "successfully changed"));
     }
 
     @Transactional
@@ -79,7 +118,7 @@ public class StudentService {
         student.setGrade(studentInput.getGrade());
         student.setStage(studentInput.getStage());
         student.setGovernorate(studentInput.getGovernorate());
-        student.setStatus(studentInput.getStatus());
+        student.setStatus((studentInput.getStatus()==null)?"قيد المراجعة":studentInput.getStatus());
         student.setNationalId(studentInput.getNationalId());
         student.setBirthday(studentInput.getBirthday());
         student.setImage(image.getBytes());
@@ -97,4 +136,7 @@ public class StudentService {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    private String emptyToNull(String value) {
+        return (value == null || value.trim().isEmpty()) ? null : value;
+    }
 }

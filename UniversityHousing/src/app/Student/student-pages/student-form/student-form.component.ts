@@ -24,11 +24,13 @@ import {Department} from '../../../Classes/department/department';
 export class StudentFormComponent implements OnInit {
   checkoutFormGroup: FormGroup = new FormGroup({})
   userEmail: string = ""
+  errorText: string = "يجب ملء هذا الحقل";
+  isRegistrationEnabled: boolean = true;
   governorateData: Governorate[] = [];
-  states:State[]=[];
+  states: State[] = [];
   studentData: Student = {};
-  colleagues:Colleague[]=[];
-  departments:Department[]=[];
+  colleagues: Colleague[] = [];
+  departments: Department[] = [];
 
   constructor(private formBuilder: FormBuilder, private studentService: StudentsService, private commonDataService: CommonDataService) {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -64,10 +66,16 @@ export class StudentFormComponent implements OnInit {
 
   }
 
-  errorText: string = "يجب ملء هذا الحقل";
 
   ngOnInit() {
+
+
     this.userEmail = localStorage.getItem('email')!;
+    this.getRegisterStatus();
+    if (!this.isRegistrationEnabled){
+      return
+    }
+    this.getStudentData();
     this.getAllGovernorate();
     this.getAllColleague();
   }
@@ -83,15 +91,27 @@ export class StudentFormComponent implements OnInit {
     );
   }
 
+  private getRegisterStatus() {
+    this.commonDataService.getRegistrationStatus().subscribe(
+      value => {
+        this.isRegistrationEnabled = value.Status
+        console.log(this.isRegistrationEnabled);
+      }, error => {
+        alert(error.message)
+      }
+    );
+  }
+
   private getAllColleague(): void {
-     this.commonDataService.getAllColleague().subscribe(
-      res=>this.colleagues=res,
-       error => alert(error.message),
+    this.commonDataService.getAllColleague().subscribe(
+      res => this.colleagues = res,
+      error => alert(error.message),
     )
   }
-  private getAllDepartmentByColleagueId(id:number): void {
+
+  private getAllDepartmentByColleagueId(id: number): void {
     this.commonDataService.getDepartmentsByColleagueId(id).subscribe(
-      res=>this.departments=res,
+      res => this.departments = res,
       error => alert(error.message),
     )
   }
@@ -104,12 +124,23 @@ export class StudentFormComponent implements OnInit {
       error => alert(error.message)
     )
   }
-  private getAllStatesByGovernorateId(id:number) {
+
+  private getAllStatesByGovernorateId(id: number) {
     this.commonDataService.getStatesByGovernorateId(id).subscribe(
-      res=> this.states=res,
+      res => this.states = res,
       error => alert(error.message),
     )
   }
+
+  private getStudentData() {
+    this.studentService.getStudent().subscribe(
+      res => {
+        this.studentData = res;
+      },
+      error => alert(error.message),
+    )
+  }
+
 
   private buildFormData(): FormData {
     const formData = new FormData();
@@ -139,7 +170,6 @@ export class StudentFormComponent implements OnInit {
       department: this.checkoutFormGroup.value.department,
       stage: this.checkoutFormGroup.value.stage,
       grade: this.checkoutFormGroup.value.grade,
-      status: "UNDER_REVIEW"
     }
   }
 
@@ -167,16 +197,15 @@ export class StudentFormComponent implements OnInit {
   }
 
 
-
   getValue() {
     const getSelectedGovernorate = this.checkoutFormGroup.get('governorate')?.value;
-    const getIdOfGovernorate:number = this.governorateData.find(n=>n.name===getSelectedGovernorate)?.id!;
+    const getIdOfGovernorate: number = this.governorateData.find(n => n.name === getSelectedGovernorate)?.id!;
     this.getAllStatesByGovernorateId(getIdOfGovernorate);
   }
 
   getDepartments() {
-    const getSelectedColleague=this.checkoutFormGroup.get('colleague')?.value;
-    const getIdOfDepartment:number=this.colleagues.find(n=>n.name===getSelectedColleague)?.id!;
+    const getSelectedColleague = this.checkoutFormGroup.get('colleague')?.value;
+    const getIdOfDepartment: number = this.colleagues.find(n => n.name === getSelectedColleague)?.id!;
     this.getAllDepartmentByColleagueId(getIdOfDepartment);
   }
 }

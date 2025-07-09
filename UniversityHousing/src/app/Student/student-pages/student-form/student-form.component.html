@@ -1,6 +1,6 @@
 <div class="container mt-3">
 
-  @if (true) {
+  @if (isRegistrationEnabled) {
     <div class="form-container">
       <h2>عملية التسجيل</h2>
       <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
